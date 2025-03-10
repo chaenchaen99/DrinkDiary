@@ -1,178 +1,198 @@
-import 'package:flutter_drinkdiary/data/models/cocktail.dart';
-import 'package:flutter_drinkdiary/data/repositories/cocktail_repository.dart';
-import 'package:flutter_drinkdiary/features/cocktail/providers/cocktail_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../../../data/models/cocktail.dart';
+import '../../../data/repositories/cocktail_repository.dart';
+import 'cocktail_state.dart';
 
 part 'cocktail_provider.g.dart';
 
 @riverpod
 class CocktailNotifier extends _$CocktailNotifier {
   @override
-  CocktailState build() {
-    _loadCocktails();
-    return const CocktailState();
+  FutureOr<List<Cocktail>> build() async {
+    return _loadCocktails();
   }
 
-  Future<void> _loadCocktails() async {
-    state = state.copyWith(isLoading: true, error: null);
-
+  Future<List<Cocktail>> _loadCocktails() async {
     try {
       final repository = ref.read(cocktailRepositoryProvider);
-      List<Cocktail> cocktails = [];
+      final filter = ref.read(cocktailFilterProvider);
+      List<Cocktail> cocktails = repository.getAllCocktails();
 
       // 필터 적용
-      if (state.searchQuery != null) {
-        cocktails = repository.searchCocktailsByName(state.searchQuery!);
-      } else {
-        cocktails = repository.getAllCocktails();
-      }
-
-      // 베이스 술 필터
-      if (state.selectedBaseSpirit != null) {
+      if (filter.searchQuery != null) {
         cocktails = cocktails
-            .where((cocktail) =>
-                cocktail.baseSpirit.toLowerCase() ==
-                state.selectedBaseSpirit!.toLowerCase())
+            .where((cocktail) => cocktail.name
+                .toLowerCase()
+                .contains(filter.searchQuery!.toLowerCase()))
             .toList();
       }
 
-      // 난이도 필터
-      if (state.selectedDifficulty != null) {
+      if (filter.selectedBaseSpirit != null) {
+        cocktails = cocktails
+            .where((cocktail) =>
+                cocktail.base.toLowerCase() ==
+                filter.selectedBaseSpirit!.toLowerCase())
+            .toList();
+      }
+
+      if (filter.selectedDifficulty != null) {
         cocktails = cocktails
             .where(
-                (cocktail) => cocktail.difficulty == state.selectedDifficulty)
+                (cocktail) => cocktail.difficulty == filter.selectedDifficulty)
             .toList();
       }
 
-      // 평점 필터
-      if (state.minRating != null) {
+      if (filter.minRating != null) {
         cocktails = cocktails
-            .where((cocktail) => cocktail.rating >= state.minRating!)
+            .where((cocktail) => cocktail.rating >= filter.minRating!)
             .toList();
       }
 
-      // 태그 필터
-      if (state.selectedTags.isNotEmpty) {
+      if (filter.selectedTags.isNotEmpty) {
         cocktails = cocktails
             .where((cocktail) =>
-                cocktail.tags?.any((tag) => state.selectedTags.contains(tag)) ??
+                cocktail.tags
+                    ?.any((tag) => filter.selectedTags.contains(tag)) ??
                 false)
             .toList();
       }
 
-      // 재료 필터
-      if (state.selectedIngredients.isNotEmpty) {
+      if (filter.selectedIngredients.isNotEmpty) {
         cocktails = cocktails
-            .where((cocktail) => state.selectedIngredients.every((ingredient) =>
-                cocktail.ingredients
-                    .any((i) => i.toLowerCase() == ingredient.toLowerCase())))
+            .where((cocktail) =>
+                cocktail.ingredients?.any((ingredient) =>
+                    filter.selectedIngredients.contains(ingredient)) ??
+                false)
             .toList();
       }
 
       // 최신순 정렬
       cocktails.sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
-      state = state.copyWith(
-        cocktails: cocktails,
-        isLoading: false,
-      );
+      return cocktails;
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
+      throw Exception('칵테일을 불러오는데 실패했습니다: $e');
     }
   }
 
   // 칵테일 추가
   Future<void> addCocktail(Cocktail cocktail) async {
-    state = state.copyWith(isLoading: true, error: null);
-
+    state = const AsyncValue.loading();
     try {
       final repository = ref.read(cocktailRepositoryProvider);
       await repository.addCocktail(cocktail);
-      await _loadCocktails();
+      state = AsyncValue.data(await _loadCocktails());
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
+      state = AsyncValue.error(e, StackTrace.current);
     }
   }
 
   // 칵테일 수정
   Future<void> updateCocktail(Cocktail cocktail) async {
-    state = state.copyWith(isLoading: true, error: null);
-
+    state = const AsyncValue.loading();
     try {
       final repository = ref.read(cocktailRepositoryProvider);
       await repository.updateCocktail(cocktail);
-      await _loadCocktails();
+      state = AsyncValue.data(await _loadCocktails());
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
+      state = AsyncValue.error(e, StackTrace.current);
     }
   }
 
   // 칵테일 삭제
   Future<void> deleteCocktail(String id) async {
-    state = state.copyWith(isLoading: true, error: null);
-
+    state = const AsyncValue.loading();
     try {
       final repository = ref.read(cocktailRepositoryProvider);
       await repository.deleteCocktail(id);
-      await _loadCocktails();
+      state = AsyncValue.data(await _loadCocktails());
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
+      state = AsyncValue.error(e, StackTrace.current);
     }
   }
+}
 
-  // 필터 설정
+@riverpod
+class CocktailFilter extends AutoDisposeNotifier<CocktailState> {
+  @override
+  CocktailState build() {
+    return const CocktailState();
+  }
+
   void setSearchQuery(String? query) {
-    state = state.copyWith(searchQuery: query);
-    _loadCocktails();
+    state = CocktailState(
+      searchQuery: query,
+      selectedBaseSpirit: state.selectedBaseSpirit,
+      selectedDifficulty: state.selectedDifficulty,
+      minRating: state.minRating,
+      selectedTags: state.selectedTags,
+      selectedIngredients: state.selectedIngredients,
+    );
+    ref.invalidate(cocktailNotifierProvider);
   }
 
   void setSelectedBaseSpirit(String? baseSpirit) {
-    state = state.copyWith(selectedBaseSpirit: baseSpirit);
-    _loadCocktails();
+    state = CocktailState(
+      searchQuery: state.searchQuery,
+      selectedBaseSpirit: baseSpirit,
+      selectedDifficulty: state.selectedDifficulty,
+      minRating: state.minRating,
+      selectedTags: state.selectedTags,
+      selectedIngredients: state.selectedIngredients,
+    );
+    ref.invalidate(cocktailNotifierProvider);
   }
 
   void setSelectedDifficulty(int? difficulty) {
-    state = state.copyWith(selectedDifficulty: difficulty);
-    _loadCocktails();
+    state = CocktailState(
+      searchQuery: state.searchQuery,
+      selectedBaseSpirit: state.selectedBaseSpirit,
+      selectedDifficulty: difficulty,
+      minRating: state.minRating,
+      selectedTags: state.selectedTags,
+      selectedIngredients: state.selectedIngredients,
+    );
+    ref.invalidate(cocktailNotifierProvider);
   }
 
   void setMinRating(double? rating) {
-    state = state.copyWith(minRating: rating);
-    _loadCocktails();
+    state = CocktailState(
+      searchQuery: state.searchQuery,
+      selectedBaseSpirit: state.selectedBaseSpirit,
+      selectedDifficulty: state.selectedDifficulty,
+      minRating: rating,
+      selectedTags: state.selectedTags,
+      selectedIngredients: state.selectedIngredients,
+    );
+    ref.invalidate(cocktailNotifierProvider);
   }
 
   void setSelectedTags(List<String> tags) {
-    state = state.copyWith(selectedTags: tags);
-    _loadCocktails();
+    state = CocktailState(
+      searchQuery: state.searchQuery,
+      selectedBaseSpirit: state.selectedBaseSpirit,
+      selectedDifficulty: state.selectedDifficulty,
+      minRating: state.minRating,
+      selectedTags: tags,
+      selectedIngredients: state.selectedIngredients,
+    );
+    ref.invalidate(cocktailNotifierProvider);
   }
 
   void setSelectedIngredients(List<String> ingredients) {
-    state = state.copyWith(selectedIngredients: ingredients);
-    _loadCocktails();
+    state = CocktailState(
+      searchQuery: state.searchQuery,
+      selectedBaseSpirit: state.selectedBaseSpirit,
+      selectedDifficulty: state.selectedDifficulty,
+      minRating: state.minRating,
+      selectedTags: state.selectedTags,
+      selectedIngredients: ingredients,
+    );
+    ref.invalidate(cocktailNotifierProvider);
   }
 
-  // 필터 초기화
   void resetFilters() {
-    state = state.copyWith(
-      searchQuery: null,
-      selectedBaseSpirit: null,
-      selectedDifficulty: null,
-      minRating: null,
-      selectedTags: [],
-      selectedIngredients: [],
-    );
-    _loadCocktails();
+    state = const CocktailState();
+    ref.invalidate(cocktailNotifierProvider);
   }
 }

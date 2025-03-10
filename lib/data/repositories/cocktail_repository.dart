@@ -1,6 +1,6 @@
-import 'package:flutter_drinkdiary/data/models/cocktail.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../models/cocktail.dart';
 
 part 'cocktail_repository.g.dart';
 
@@ -46,17 +46,9 @@ class CocktailRepository {
   }
 
   // 베이스 술로 칵테일 검색
-  List<Cocktail> getCocktailsByBaseSpirit(String baseSpirit) {
+  List<Cocktail> getCocktailsByBase(String base) {
     return _box.values
-        .where((cocktail) =>
-            cocktail.baseSpirit.toLowerCase() == baseSpirit.toLowerCase())
-        .toList();
-  }
-
-  // 난이도로 칵테일 검색
-  List<Cocktail> getCocktailsByDifficulty(int difficulty) {
-    return _box.values
-        .where((cocktail) => cocktail.difficulty == difficulty)
+        .where((cocktail) => cocktail.base.toLowerCase() == base.toLowerCase())
         .toList();
   }
 
@@ -87,8 +79,10 @@ class CocktailRepository {
   // 재료로 칵테일 검색
   List<Cocktail> getCocktailsByIngredient(String ingredient) {
     return _box.values
-        .where((cocktail) => cocktail.ingredients
-            .any((i) => i.toLowerCase() == ingredient.toLowerCase()))
+        .where((cocktail) =>
+            cocktail.ingredients
+                ?.any((i) => i.toLowerCase() == ingredient.toLowerCase()) ??
+            false)
         .toList();
   }
 }

@@ -1,6 +1,7 @@
-import 'package:flutter_drinkdiary/data/models/wine.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../models/wine.dart';
 
 part 'wine_repository.g.dart';
 

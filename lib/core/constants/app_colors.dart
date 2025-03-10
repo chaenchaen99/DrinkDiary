@@ -13,14 +13,31 @@ class AppColors {
   static const wineBackground = Color(0xFF2C1810); // 다크 브라운
   static const wineSurface = Color(0xFF3D2B25); // 연한 다크 브라운
 
-  // 공통 색상
-  static const textDark = Color(0xFF2D2D2D);
-  static const textLight = Color(0xFFF5F5F5);
-  static const error = Color(0xFFB00020);
+  // Primary Colors
+  static const primary = Color(0xFF6B3FA0);
+  static const secondary = Color(0xFFA881D9);
+  static const accent = Color(0xFFE6B9F5);
+
+  // Grey Scale
+  static const darkGrey = Color(0xFF4A4A4A);
+  static const grey = Color(0xFF9E9E9E);
+  static const lightGrey = Color(0xFFE0E0E0);
+
+  // Status Colors
   static const success = Color(0xFF4CAF50);
   static const warning = Color(0xFFFFA000);
+  static const error = Color(0xFFE53935);
+  static const info = Color(0xFF2196F3);
 
-  // 평가 색상
+  // Text Colors
+  static const textDark = Color(0xFF2D2D2D);
+  static const textLight = Color(0xFFF5F5F5);
+
+  // Background Colors
+  static const darkBackground = Color(0xFF121212);
+  static const lightBackground = Color(0xFFFAFAFA);
+
+  // Rating Colors
   static const ratingColors = [
     Color(0xFFFFE082), // 1점
     Color(0xFFFFD54F), // 2점

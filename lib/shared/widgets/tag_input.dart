@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_drinkdiary/core/constants/app_colors.dart';
-import 'package:flutter_drinkdiary/core/constants/app_sizes.dart';
-import 'package:flutter_drinkdiary/core/constants/app_strings.dart';
+
+import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_sizes.dart';
+import '../../../core/constants/app_strings.dart';
 
 class TagInput extends StatefulWidget {
   final List<String> tags;
@@ -53,11 +54,11 @@ class _TagInputState extends State<TagInput> {
             widget.label!,
             style: Theme.of(context).textTheme.titleMedium,
           ),
-          const SizedBox(height: AppSizes.paddingXS),
+          const SizedBox(height: AppSizes.size4),
         ],
         Wrap(
-          spacing: AppSizes.paddingS,
-          runSpacing: AppSizes.paddingS,
+          spacing: AppSizes.size8,
+          runSpacing: AppSizes.size8,
           children: [
             ...widget.tags.map((tag) => Chip(
                   label: Text(tag),

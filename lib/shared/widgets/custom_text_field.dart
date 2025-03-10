@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_drinkdiary/core/constants/app_colors.dart';
-import 'package:flutter_drinkdiary/core/constants/app_sizes.dart';
+import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_sizes.dart';
 
 class CustomTextField extends StatelessWidget {
   final String label;
@@ -18,6 +18,7 @@ class CustomTextField extends StatelessWidget {
   final bool readOnly;
   final Widget? suffix;
   final Widget? prefix;
+  final String? Function(String?)? validator;
 
   const CustomTextField({
     super.key,
@@ -35,6 +36,7 @@ class CustomTextField extends StatelessWidget {
     this.readOnly = false,
     this.suffix,
     this.prefix,
+    this.validator,
   });
 
   @override
@@ -48,8 +50,8 @@ class CustomTextField extends StatelessWidget {
           label,
           style: Theme.of(context).textTheme.titleMedium,
         ),
-        const SizedBox(height: AppSizes.paddingXS),
-        TextField(
+        const SizedBox(height: AppSizes.size16),
+        TextFormField(
           controller: controller,
           keyboardType: keyboardType,
           inputFormatters: inputFormatters,
@@ -59,6 +61,7 @@ class CustomTextField extends StatelessWidget {
           onChanged: onChanged,
           onTap: onTap,
           readOnly: readOnly,
+          validator: validator,
           decoration: InputDecoration(
             hintText: hint,
             errorText: errorText,
@@ -68,21 +71,21 @@ class CustomTextField extends StatelessWidget {
             fillColor:
                 isDark ? AppColors.wineSurface : AppColors.cocktailSurface,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppSizes.inputRadius),
+              borderRadius: BorderRadius.circular(AppSizes.radius8),
               borderSide: BorderSide(
                 color:
                     isDark ? AppColors.winePrimary : AppColors.cocktailPrimary,
               ),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppSizes.inputRadius),
+              borderRadius: BorderRadius.circular(AppSizes.radius8),
               borderSide: BorderSide(
                 color:
                     isDark ? AppColors.winePrimary : AppColors.cocktailPrimary,
               ),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppSizes.inputRadius),
+              borderRadius: BorderRadius.circular(AppSizes.radius8),
               borderSide: BorderSide(
                 color:
                     isDark ? AppColors.winePrimary : AppColors.cocktailPrimary,

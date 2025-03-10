@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter_drinkdiary/data/models/wine.dart';
-
+import '../../../data/models/wine.dart';
 part 'wine_state.freezed.dart';
 
 @freezed

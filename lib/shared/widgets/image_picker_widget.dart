@@ -1,9 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter_drinkdiary/core/constants/app_colors.dart';
-import 'package:flutter_drinkdiary/core/constants/app_sizes.dart';
-import 'package:flutter_drinkdiary/core/constants/app_strings.dart';
+
+import '../../../core/constants/app_strings.dart';
+import '../../core/constants/app_sizes.dart';
+import '../../core/constants/app_colors.dart';
 
 class ImagePickerWidget extends StatelessWidget {
   final List<String> images;
