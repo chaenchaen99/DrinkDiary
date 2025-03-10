@@ -37,26 +37,18 @@ class AppSizes {
   static const cardElevation = 2.0;
 
   // Padding
-  static const double paddingXS = 4.0;
-  static const double paddingS = 8.0;
-  static const double paddingM = 16.0;
-  static const double paddingL = 24.0;
+  static const paddingXS = 4.0;
+  static const paddingS = 8.0;
+  static const paddingM = 16.0;
+  static const paddingL = 24.0;
 
   // Margin
-  static const double marginS = 8.0;
-  static const double marginM = 16.0;
-  static const double marginL = 24.0;
-
-  // Radius
-  static const double radiusS = 4.0;
-  static const double radiusM = 8.0;
-  static const double radiusL = 16.0;
+  static const marginS = 8.0;
+  static const marginM = 16.0;
+  static const marginL = 24.0;
 
   // Icon
-  static const double iconS = 16.0;
-  static const double iconM = 24.0;
-  static const double iconL = 32.0;
-
-  // Image
-  static const double imagePreviewSize = 200.0;
+  static const iconS = 16.0;
+  static const iconM = 24.0;
+  static const iconL = 32.0;
 }

@@ -16,8 +16,8 @@ class ImagePickerWidget extends StatelessWidget {
     super.key,
     required this.images,
     required this.onImagesChanged,
-    this.height = AppSizes.imagePreviewSize,
-    this.width = AppSizes.imagePreviewSize,
+    this.height = AppSizes.imagePreview,
+    this.width = AppSizes.imagePreview,
   });
 
   Future<void> _pickImage(BuildContext context) async {
@@ -74,7 +74,7 @@ class ImagePickerWidget extends StatelessWidget {
                       color: isDark
                           ? AppColors.wineSurface
                           : AppColors.cocktailSurface,
-                      borderRadius: BorderRadius.circular(AppSizes.radiusM),
+                      borderRadius: BorderRadius.circular(AppSizes.radius12),
                       border: Border.all(
                         color: isDark
                             ? AppColors.winePrimary
@@ -98,7 +98,7 @@ class ImagePickerWidget extends StatelessWidget {
                     width: width,
                     margin: const EdgeInsets.only(right: AppSizes.marginS),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(AppSizes.radiusM),
+                      borderRadius: BorderRadius.circular(AppSizes.radius12),
                       image: DecorationImage(
                         image: FileImage(File(images[index])),
                         fit: BoxFit.cover,
@@ -114,7 +114,7 @@ class ImagePickerWidget extends StatelessWidget {
                         padding: const EdgeInsets.all(AppSizes.paddingXS),
                         decoration: BoxDecoration(
                           color: Colors.black54,
-                          borderRadius: BorderRadius.circular(AppSizes.radiusS),
+                          borderRadius: BorderRadius.circular(AppSizes.radius8),
                         ),
                         child: const Icon(
                           Icons.close,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_drinkdiary/core/constants/app_colors.dart';
-import 'package:flutter_drinkdiary/core/constants/app_sizes.dart';
+
+import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_sizes.dart';
 
 class RatingBar extends StatelessWidget {
   final double rating;
@@ -34,7 +35,7 @@ class RatingBar extends StatelessWidget {
             label!,
             style: Theme.of(context).textTheme.titleMedium,
           ),
-          const SizedBox(height: AppSizes.paddingXS),
+          const SizedBox(height: AppSizes.size8),
         ],
         Row(
           mainAxisSize: MainAxisSize.min,
@@ -43,7 +44,7 @@ class RatingBar extends StatelessWidget {
             return GestureDetector(
               onTap: onChanged != null ? () => onChanged!(index + 1) : null,
               child: Padding(
-                padding: const EdgeInsets.only(right: AppSizes.paddingXS),
+                padding: const EdgeInsets.only(right: AppSizes.size8),
                 child: Icon(
                   isActive ? Icons.star : Icons.star_border,
                   color: isActive ? activeColor : inactiveColor,
