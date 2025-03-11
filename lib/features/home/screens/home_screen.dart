@@ -1,3 +1,4 @@
+import 'package:drink_diary/features/home/widgets/home_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -17,10 +18,11 @@ class HomeScreen extends ConsumerWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
+      appBar: const HomeAppbar(),
       backgroundColor: isDark
           ? (category == DrinkCategory.wine
-              ? AppColors.wineSurface
-              : AppColors.cocktailSurface)
+              ? AppColors.surface
+              : AppColors.inverseSurface)
           : Colors.white,
       body: SafeArea(
         child: Column(
@@ -30,42 +32,14 @@ class HomeScreen extends ConsumerWidget {
               decoration: BoxDecoration(
                 color: isDark
                     ? (category == DrinkCategory.wine
-                        ? AppColors.winePrimary
-                        : AppColors.cocktailPrimary)
+                        ? AppColors.primary
+                        : AppColors.secondary)
                     : Colors.white,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
                     blurRadius: 4,
                     offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _CategoryButton(
-                    title: '와인',
-                    isSelected: category == DrinkCategory.wine,
-                    onTap: () {
-                      if (category != DrinkCategory.wine) {
-                        ref
-                            .read(categoryNotifierProvider.notifier)
-                            .toggleCategory();
-                      }
-                    },
-                  ),
-                  const SizedBox(width: AppSizes.size16),
-                  _CategoryButton(
-                    title: '칵테일',
-                    isSelected: category == DrinkCategory.cocktail,
-                    onTap: () {
-                      if (category != DrinkCategory.cocktail) {
-                        ref
-                            .read(categoryNotifierProvider.notifier)
-                            .toggleCategory();
-                      }
-                    },
                   ),
                 ],
               ),
@@ -85,8 +59,8 @@ class HomeScreen extends ConsumerWidget {
         },
         backgroundColor: isDark
             ? (category == DrinkCategory.wine
-                ? AppColors.winePrimary
-                : AppColors.cocktailPrimary)
+                ? AppColors.primary
+                : AppColors.secondary)
             : null,
         child: const Icon(Icons.add),
       ),

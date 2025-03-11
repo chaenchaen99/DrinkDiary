@@ -64,16 +64,13 @@ class _TagInputState extends State<TagInput> {
                   label: Text(tag),
                   deleteIcon: const Icon(Icons.close, size: AppSizes.iconS),
                   onDeleted: () => _removeTag(tag),
-                  backgroundColor: isDark
-                      ? AppColors.wineSurface
-                      : AppColors.cocktailSurface,
+                  backgroundColor:
+                      isDark ? AppColors.secondary : AppColors.onSecondary,
                   side: BorderSide(
-                    color: isDark
-                        ? AppColors.winePrimary
-                        : AppColors.cocktailPrimary,
+                    color: isDark ? AppColors.primary : AppColors.onSecondary,
                   ),
                 )),
-            Container(
+            SizedBox(
               width: 200,
               child: TextField(
                 controller: _controller,
@@ -87,25 +84,20 @@ class _TagInputState extends State<TagInput> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(AppSizes.inputRadius),
                     borderSide: BorderSide(
-                      color: isDark
-                          ? AppColors.winePrimary
-                          : AppColors.cocktailPrimary,
+                      color: isDark ? AppColors.primary : AppColors.onPrimary,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(AppSizes.inputRadius),
                     borderSide: BorderSide(
-                      color: isDark
-                          ? AppColors.winePrimary
-                          : AppColors.cocktailPrimary,
+                      color:
+                          isDark ? AppColors.onPrimary : AppColors.onSecondary,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(AppSizes.inputRadius),
                     borderSide: BorderSide(
-                      color: isDark
-                          ? AppColors.winePrimary
-                          : AppColors.cocktailPrimary,
+                      color: isDark ? AppColors.primary : AppColors.secondary,
                       width: 2,
                     ),
                   ),

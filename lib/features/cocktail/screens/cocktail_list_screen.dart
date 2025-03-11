@@ -14,17 +14,6 @@ class CocktailListScreen extends ConsumerWidget {
     final cocktailState = ref.watch(cocktailNotifierProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('칵테일 다이어리'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              // TODO: 칵테일 추가 화면으로 이동
-            },
-          ),
-        ],
-      ),
       body: cocktailState.when(
         data: (cocktails) {
           if (cocktails.isEmpty) {

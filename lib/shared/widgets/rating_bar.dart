@@ -22,10 +22,8 @@ class RatingBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final activeColor =
-        isDark ? AppColors.winePrimary : AppColors.cocktailPrimary;
-    final inactiveColor =
-        isDark ? AppColors.wineSurface : AppColors.cocktailSurface;
+    final activeColor = isDark ? AppColors.primary : AppColors.onPrimary;
+    final inactiveColor = isDark ? AppColors.secondary : AppColors.onSecondary;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

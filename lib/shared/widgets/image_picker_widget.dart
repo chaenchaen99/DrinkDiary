@@ -71,21 +71,16 @@ class ImagePickerWidget extends StatelessWidget {
                     width: width,
                     margin: const EdgeInsets.only(right: AppSizes.marginS),
                     decoration: BoxDecoration(
-                      color: isDark
-                          ? AppColors.wineSurface
-                          : AppColors.cocktailSurface,
+                      color:
+                          isDark ? AppColors.secondary : AppColors.onSecondary,
                       borderRadius: BorderRadius.circular(AppSizes.radius12),
                       border: Border.all(
-                        color: isDark
-                            ? AppColors.winePrimary
-                            : AppColors.cocktailPrimary,
+                        color: isDark ? AppColors.primary : AppColors.onPrimary,
                       ),
                     ),
                     child: Icon(
                       Icons.add_photo_alternate_outlined,
-                      color: isDark
-                          ? AppColors.winePrimary
-                          : AppColors.cocktailPrimary,
+                      color: isDark ? AppColors.primary : AppColors.onPrimary,
                       size: AppSizes.iconL,
                     ),
                   ),

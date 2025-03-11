@@ -14,17 +14,6 @@ class WineListScreen extends ConsumerWidget {
     final wineState = ref.watch(wineNotifierProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('와인 다이어리'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              // TODO: 와인 추가 화면으로 이동
-            },
-          ),
-        ],
-      ),
       body: wineState.when(
         data: (wines) {
           if (wines.isEmpty) {

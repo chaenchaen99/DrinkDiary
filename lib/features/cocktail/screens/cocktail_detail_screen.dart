@@ -79,12 +79,10 @@ class CocktailDetailScreen extends ConsumerWidget {
             ),
             const SizedBox(height: AppSizes.size16),
             if (cocktail.ingredients != null)
-              ...cocktail.ingredients!
-                  .map((ingredient) => Padding(
-                        padding: const EdgeInsets.only(bottom: AppSizes.size8),
-                        child: Text('• $ingredient'),
-                      ))
-                  .toList(),
+              ...cocktail.ingredients!.map((ingredient) => Padding(
+                    padding: const EdgeInsets.only(bottom: AppSizes.size8),
+                    child: Text('• $ingredient'),
+                  )),
             const SizedBox(height: AppSizes.size24),
             Text(
               '레시피',
@@ -92,13 +90,10 @@ class CocktailDetailScreen extends ConsumerWidget {
             ),
             const SizedBox(height: AppSizes.size16),
             if (cocktail.recipe != null)
-              ...cocktail.recipe!
-                  .map((step) => Padding(
-                        padding: const EdgeInsets.only(bottom: AppSizes.size8),
-                        child: Text(
-                            '${cocktail.recipe!.indexOf(step) + 1}. $step'),
-                      ))
-                  .toList(),
+              ...cocktail.recipe!.map((step) => Padding(
+                    padding: const EdgeInsets.only(bottom: AppSizes.size8),
+                    child: Text('${cocktail.recipe!.indexOf(step) + 1}. $step'),
+                  )),
             const SizedBox(height: AppSizes.size24),
             Text(
               '평가',
