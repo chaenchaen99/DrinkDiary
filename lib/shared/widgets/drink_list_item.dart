@@ -1,8 +1,13 @@
+import 'package:drink_diary/core/constants/app_sizes.dart';
+import 'package:drink_diary/shared/widgets/rating_bar.dart';
 import 'package:flutter/material.dart';
 
 class DrinkListItem extends StatelessWidget {
+  final String id;
   final String name;
   final String onelineReview;
+  final String alcohol;
+  final double rating;
   final String imagePath;
   final VoidCallback onTap;
 
@@ -12,17 +17,14 @@ class DrinkListItem extends StatelessWidget {
     required this.onTap,
     required this.imagePath,
     required this.onelineReview,
+    required this.alcohol,
+    required this.rating,
+    required this.id,
   });
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Card(
-      margin: const EdgeInsets.symmetric(
-        horizontal: 4.0, // AppSizes.size16
-        vertical: 4.0, // AppSizes.size8
-      ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12), // 카드에 둥근 모서리 추가
       ),
@@ -49,6 +51,7 @@ class DrinkListItem extends StatelessWidget {
                     end: Alignment.bottomCenter,
                     colors: [
                       Colors.transparent, // 위쪽은 투명
+                      Colors.black.withAlpha(80),
                       Colors.black.withAlpha(100), // 아래쪽은 반투명 검정
                     ],
                   ),
@@ -74,11 +77,29 @@ class DrinkListItem extends StatelessWidget {
                   const SizedBox(height: 2.0),
                   Text(
                     onelineReview,
-                    maxLines: 2,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                         color: Colors.white),
+                  ),
+                  Text(
+                    alcohol,
+                    maxLines: 1,
+                    style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
+                  ),
+                  const SizedBox(height: 2.0),
+                  RatingBar(
+                    rating: rating,
+                    size: AppSizes.iconS,
+                    onChanged: null,
+                    activeColor: Colors.white,
+                    inactiveColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 0.0),
                   ),
                 ],
               ),

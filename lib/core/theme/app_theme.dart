@@ -5,6 +5,7 @@ class AppTheme {
   static final ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
+    scaffoldBackgroundColor: const Color(0xFFFFF7F3),
     textTheme: const TextTheme(
       titleMedium: TextStyle(
         fontSize: 16,
@@ -29,7 +30,7 @@ class AppTheme {
     ),
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: AppColors.wineBackground,
-      indicatorColor: AppColors.winePrimary.withOpacity(0.1),
+      indicatorColor: AppColors.winePrimary.withAlpha(10),
       labelTextStyle: WidgetStateProperty.all(
         const TextStyle(
           color: Colors.white,

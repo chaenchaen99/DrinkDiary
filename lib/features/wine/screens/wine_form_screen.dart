@@ -1,3 +1,4 @@
+import 'package:drink_diary/features/home/providers/category_provider.dart';
 import 'package:drink_diary/features/wine/providers/wine_provider.dart';
 import 'package:drink_diary/shared/widgets/rating_bar.dart';
 import 'package:flutter/material.dart';
@@ -158,6 +159,8 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final category = ref.watch(categoryNotifierProvider);
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -352,6 +355,8 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
                 RatingBar(
                   label: '추천도',
                   rating: 3.0,
+                  activeColor: category.theme.backgroundColor,
+                  inactiveColor: category.theme.backgroundColor,
                   onChanged: (value) => setState(() => _rating = value),
                 ),
                 const SizedBox(height: AppSizes.size56),

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../core/constants/app_strings.dart';
@@ -44,14 +45,28 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
 
       if (images.isNotEmpty) {
         // 여러 이미지가 선택되었을 경우, 기존 이미지 리스트에 추가
-        widget.onImagesChanged(
-            [...widget.images, ...images.map((image) => image.path)]);
+        final savedPaths = await saveImagesToLocal(images);
+        widget.onImagesChanged(savedPaths);
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(e.toString())),
       );
     }
+  }
+
+  Future<List<String>> saveImagesToLocal(List<XFile> pickedFiles) async {
+    final directory =
+        await getApplicationDocumentsDirectory(); // 영구 저장소 경로 가져오기
+    List<String> savedPaths = [];
+
+    for (var pickedFile in pickedFiles) {
+      final String newPath = '${directory.path}/${pickedFile.name}';
+      final File newImage = File(pickedFile.path).copySync(newPath); // 이미지 복사
+      savedPaths.add(newImage.path); // 저장된 이미지 경로 추가
+    }
+
+    return savedPaths; // 모든 이미지 경로 반환
   }
 
   void _removeImage(int index) {

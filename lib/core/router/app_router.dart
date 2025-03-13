@@ -32,6 +32,7 @@ GoRouter router(RouterRef ref) {
             builder: (context, state) => const WineFormScreen(),
           ),
           GoRoute(
+            name: 'wine_detail',
             path: ':id',
             builder: (context, state) {
               final wines = ref.read(wineNotifierProvider).value!;
@@ -62,6 +63,7 @@ GoRouter router(RouterRef ref) {
             builder: (context, state) => const CocktailFormScreen(),
           ),
           GoRoute(
+            name: 'cocktail_detail',
             path: ':id',
             builder: (context, state) {
               final cocktails = ref.read(cocktailNotifierProvider).value!;

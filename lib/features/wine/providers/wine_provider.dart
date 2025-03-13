@@ -13,71 +13,6 @@ class WineNotifier extends _$WineNotifier {
     return _loadWines();
   }
 
-  // Future<List<Wine>> _loadWines() async {
-  //   return [
-  //     Wine(
-  //       id: '1',
-  //       name: '샤또 마고 2018',
-  //       variety: '카베르네 소비뇽',
-  //       region: '보르도',
-  //       productionYear: 2018,
-  //       price: 250000,
-  //       rating: 4,
-  //       review: '풍부한 탄닌과 긴 여운이 인상적인 와인',
-  //       foodPairing: [],
-  //       createdAt: DateTime(2024, 3, 15),
-  //       winery: '샤또 마고',
-  //       shop: '와인샵',
-  //       alcoholContent: 14,
-  //       aroma: 4,
-  //       body: 5,
-  //       tannin: 4,
-  //       acidity: 3,
-  //       sweetness: [],
-  //     ),
-  //     Wine(
-  //       id: '2',
-  //       name: '바롤로 2015',
-  //       variety: '네비올로',
-  //       region: '피에몬테',
-  //       productionYear: 2015,
-  //       price: 180000,
-  //       rating: 5,
-  //       review: '강렬한 구조감과 복합적인 아로마',
-  //       foodPairing: [],
-  //       createdAt: DateTime(2024, 3, 14),
-  //       winery: '지아코모 콘테르노',
-  //       shop: '와인웍스',
-  //       alcoholContent: 14,
-  //       aroma: 5,
-  //       body: 5,
-  //       tannin: 5,
-  //       acidity: 4,
-  //       sweetness: [],
-  //     ),
-  //     Wine(
-  //       id: '3',
-  //       name: '퀴베 카베르네 소비뇽',
-  //       variety: '카베르네 소비뇽',
-  //       region: '나파 밸리',
-  //       productionYear: 2019,
-  //       price: 150000,
-  //       rating: 4,
-  //       foodPairing: [],
-  //       review: '과실향이 풍부하고 부드러운 탄닌',
-  //       createdAt: DateTime(2024, 3, 13),
-  //       winery: '로버트 몬다비',
-  //       shop: '와인21',
-  //       alcoholContent: 14,
-  //       aroma: 4,
-  //       body: 4,
-  //       tannin: 3,
-  //       acidity: 3,
-  //       sweetness: [],
-  //     ),
-  //   ];
-  // }
-
   Future<List<Wine>> _loadWines() async {
     try {
       final repository = ref.read(wineRepositoryProvider);
@@ -167,6 +102,18 @@ class WineNotifier extends _$WineNotifier {
     try {
       final repository = ref.read(wineRepositoryProvider);
       await repository.deleteWine(id);
+      state = AsyncValue.data(await _loadWines());
+    } catch (e) {
+      state = AsyncValue.error(e, StackTrace.current);
+    }
+  }
+
+  // 와인 전부 삭제 : 디버그용
+  Future<void> deleteAllWine() async {
+    state = const AsyncValue.loading();
+    try {
+      final repository = ref.read(wineRepositoryProvider);
+      await repository.deleteAllWine();
       state = AsyncValue.data(await _loadWines());
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);

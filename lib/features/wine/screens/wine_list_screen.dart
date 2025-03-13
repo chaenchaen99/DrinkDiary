@@ -1,8 +1,8 @@
-import 'dart:io';
 import 'package:drink_diary/features/wine/providers/wine_provider.dart';
 import 'package:drink_diary/shared/widgets/drink_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_sizes.dart';
@@ -43,22 +43,28 @@ class WineListScreen extends ConsumerWidget {
           }
 
           return GridView.builder(
-            padding: const EdgeInsets.all(AppSizes.size16),
+            padding: const EdgeInsets.all(AppSizes.size4),
             itemCount: wines.length,
             itemBuilder: (context, index) {
               final wine = wines[index];
               return DrinkListItem(
-                  name: wine.name,
-                  onTap: () {},
-                  imagePath: wine.images != null && wine.images!.isNotEmpty
-                      ? wine.images!.first
-                      : 'assets/images/wine_default.png',
-                  onelineReview: wine.onelineReview ?? '');
+                name: wine.name,
+                onTap: () {
+                  context.push('/wines/${wine.id}');
+                },
+                imagePath: wine.images != null && wine.images!.isNotEmpty
+                    ? wine.images!.first
+                    : 'assets/images/wine_default.png',
+                onelineReview: wine.onelineReview ?? '',
+                alcohol: "${wine.alcoholContent}%",
+                rating: wine.rating,
+                id: wine.id,
+              );
             },
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, // 한 줄에 2개 항목
-              crossAxisSpacing: AppSizes.size8, // 열 간격
-              mainAxisSpacing: AppSizes.size8, // 행 간격
+              crossAxisSpacing: AppSizes.size4, // 열 간격
+              mainAxisSpacing: AppSizes.size4, // 행 간격
               childAspectRatio: 0.7, // 각 항목의 비율 (가로/세로)
             ),
           );

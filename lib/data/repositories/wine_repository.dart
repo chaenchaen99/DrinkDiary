@@ -30,6 +30,11 @@ class WineRepository {
     await _box.delete(id);
   }
 
+  // 와인 전부 삭제
+  Future<void> deleteAllWine() async {
+    await _box.clear();
+  }
+
   // ID로 와인 조회
   Wine? getWine(String id) {
     return _box.get(id);

@@ -12,6 +12,9 @@ class RatingBar extends StatefulWidget {
   final String? label;
   final bool showLabel;
   final DrinkCategory category;
+  final Color activeColor;
+  final Color? inactiveColor;
+  final EdgeInsetsGeometry padding;
 
   const RatingBar({
     super.key,
@@ -21,6 +24,9 @@ class RatingBar extends StatefulWidget {
     this.label,
     this.showLabel = true,
     this.category = DrinkCategory.wine,
+    this.activeColor = Colors.white,
+    this.inactiveColor = Colors.white,
+    this.padding = const EdgeInsets.symmetric(horizontal: AppSizes.size16),
   });
 
   @override
@@ -45,9 +51,6 @@ class _RatingBarState extends State<RatingBar> {
 
   @override
   Widget build(BuildContext context) {
-    final activeColor = widget.category.theme.backgroundColor;
-    final inactiveColor = widget.category.theme.backgroundColor;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -69,7 +72,7 @@ class _RatingBarState extends State<RatingBar> {
           const SizedBox(height: AppSizes.size8),
         ],
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: AppSizes.size16),
+          margin: widget.padding,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: List.generate(5, (index) {
@@ -80,7 +83,7 @@ class _RatingBarState extends State<RatingBar> {
                   padding: const EdgeInsets.only(right: AppSizes.size8),
                   child: Icon(
                     isActive ? Icons.star : Icons.star_border,
-                    color: isActive ? activeColor : inactiveColor,
+                    color: isActive ? widget.activeColor : widget.inactiveColor,
                     size: widget.size,
                   ),
                 ),
