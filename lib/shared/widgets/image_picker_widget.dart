@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../core/constants/app_strings.dart';
 import '../../core/constants/app_sizes.dart';
 import '../../core/constants/app_colors.dart';
 
-class ImagePickerWidget extends StatelessWidget {
+class ImagePickerWidget extends StatefulWidget {
   final List<String> images;
   final Function(List<String>) onImagesChanged;
   final double height;
@@ -20,18 +21,31 @@ class ImagePickerWidget extends StatelessWidget {
     this.width = AppSizes.imagePreview,
   });
 
+  @override
+  State<ImagePickerWidget> createState() => _ImagePickerWidgetState();
+}
+
+class _ImagePickerWidgetState extends State<ImagePickerWidget> {
+  @override
+  void initState() {
+    super.initState();
+    _requestGalleryPermission();
+  }
+
   Future<void> _pickImage(BuildContext context) async {
     try {
       final ImagePicker picker = ImagePicker();
-      final XFile? image = await picker.pickImage(
-        source: ImageSource.gallery,
+      // 여러 이미지 선택
+      final List<XFile> images = await picker.pickMultiImage(
         maxWidth: 1080,
         maxHeight: 1080,
         imageQuality: 85,
       );
 
-      if (image != null) {
-        onImagesChanged([...images, image.path]);
+      if (images.isNotEmpty) {
+        // 여러 이미지가 선택되었을 경우, 기존 이미지 리스트에 추가
+        widget.onImagesChanged(
+            [...widget.images, ...images.map((image) => image.path)]);
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -41,9 +55,9 @@ class ImagePickerWidget extends StatelessWidget {
   }
 
   void _removeImage(int index) {
-    final newImages = List<String>.from(images);
+    final newImages = List<String>.from(widget.images);
     newImages.removeAt(index);
-    onImagesChanged(newImages);
+    widget.onImagesChanged(newImages);
   }
 
   @override
@@ -59,16 +73,16 @@ class ImagePickerWidget extends StatelessWidget {
         ),
         const SizedBox(height: AppSizes.paddingXS),
         SizedBox(
-          height: height,
+          height: widget.height,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: images.length + 1,
+            itemCount: widget.images.length + 1,
             itemBuilder: (context, index) {
-              if (index == images.length) {
+              if (index == 0) {
                 return GestureDetector(
                   onTap: () => _pickImage(context),
                   child: Container(
-                    width: width,
+                    width: widget.width,
                     margin: const EdgeInsets.only(right: AppSizes.marginS),
                     decoration: BoxDecoration(
                       color:
@@ -90,12 +104,12 @@ class ImagePickerWidget extends StatelessWidget {
               return Stack(
                 children: [
                   Container(
-                    width: width,
+                    width: widget.width,
                     margin: const EdgeInsets.only(right: AppSizes.marginS),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(AppSizes.radius12),
                       image: DecorationImage(
-                        image: FileImage(File(images[index])),
+                        image: FileImage(File(widget.images[index - 1])),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -104,7 +118,7 @@ class ImagePickerWidget extends StatelessWidget {
                     top: AppSizes.paddingXS,
                     right: AppSizes.marginS + AppSizes.paddingXS,
                     child: GestureDetector(
-                      onTap: () => _removeImage(index),
+                      onTap: () => _removeImage(index - 1),
                       child: Container(
                         padding: const EdgeInsets.all(AppSizes.paddingXS),
                         decoration: BoxDecoration(
@@ -125,6 +139,47 @@ class ImagePickerWidget extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  // 갤러리 권한 요청
+  Future<void> _requestGalleryPermission() async {
+    // 갤러리 권한 상태 확인
+    PermissionStatus status = await Permission.photos.status;
+
+    if (status.isDenied) {
+      // 권한이 거부된 경우 요청
+      await Permission.photos.request();
+    }
+
+    if (status.isPermanentlyDenied) {
+      // 영구적으로 거부된 경우 설정 화면으로 안내
+      _showPermissionDialog();
+    } else if (status.isGranted) {
+      // 권한이 허용된 경우 (추가로 필요한 작업을 여기서 처리)
+      print("갤러리 접근 권한이 허용되었습니다.");
+    }
+  }
+
+  // 권한이 영구적으로 거부된 경우 설정 화면으로 안내하는 다이얼로그 표시
+  void _showPermissionDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('권한 요청'),
+          content: const Text('앱이 사진첩을 사용하려면 권한이 필요합니다. 설정에서 권한을 변경해주세요.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                openAppSettings(); // 설정 화면으로 이동
+                Navigator.of(context).pop();
+              },
+              child: const Text('설정으로 이동'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

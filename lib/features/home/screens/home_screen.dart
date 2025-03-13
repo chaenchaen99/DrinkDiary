@@ -8,6 +8,8 @@ import '../../../core/constants/app_sizes.dart';
 import '../providers/category_provider.dart';
 import '../../wine/screens/wine_list_screen.dart';
 import '../../cocktail/screens/cocktail_list_screen.dart';
+import '../widgets/home_appbar.dart';
+import '../../../shared/widgets/drink_list_item.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -16,6 +18,7 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final category = ref.watch(categoryNotifierProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isWine = category == DrinkCategory.wine;
 
     return Scaffold(
       appBar: const HomeAppbar(),
@@ -27,23 +30,6 @@ class HomeScreen extends ConsumerWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.all(AppSizes.size16),
-              decoration: BoxDecoration(
-                color: isDark
-                    ? (category == DrinkCategory.wine
-                        ? AppColors.primary
-                        : AppColors.secondary)
-                    : Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-            ),
             Expanded(
               child: category == DrinkCategory.wine
                   ? const WineListScreen()

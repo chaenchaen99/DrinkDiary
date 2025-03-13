@@ -28,7 +28,7 @@ class Wine with _$Wine {
 
     @HiveField(12) required int acidity, // 1-5
 
-    @HiveField(13) String? foodPairing,
+    @HiveField(13) required List<String> foodPairing,
     @HiveField(14) required double rating, // 1-5
 
     @HiveField(15) String? review,
@@ -36,29 +36,33 @@ class Wine with _$Wine {
     @HiveField(17) List<String>? tags,
     @HiveField(18) required DateTime createdAt,
     @HiveField(19) DateTime? updatedAt,
+    @HiveField(20) required int sweetness,
+    @HiveField(21) String? onelineReview,
   }) = _Wine;
 
   factory Wine.fromJson(Map<String, dynamic> json) => _$WineFromJson(json);
 
   // 새로운 와인 생성을 위한 팩토리 생성자
   factory Wine.create({
-    required String name,
-    required int productionYear,
-    required String region,
-    required String variety,
-    required String winery,
-    required double price,
-    required String shop,
-    required double alcoholContent,
-    required int aroma,
-    required int body,
-    required int tannin,
-    required int acidity,
-    String? foodPairing,
-    required double rating,
+    String name = '',
+    int productionYear = 0,
+    String region = '',
+    String variety = '',
+    String winery = '',
+    double price = 0,
+    String shop = '',
+    double alcoholContent = 0,
+    int aroma = 3,
+    int body = 3,
+    int tannin = 3,
+    int acidity = 3,
+    List<String> foodPairing = const [],
+    double rating = 0,
     String? review,
     List<String>? images,
     List<String>? tags,
+    int sweetness = 3,
+    String? onelineReview,
   }) {
     return Wine(
       id: const Uuid().v4(),
@@ -81,6 +85,8 @@ class Wine with _$Wine {
       tags: tags,
       createdAt: DateTime.now(),
       updatedAt: null,
+      sweetness: sweetness,
+      onelineReview: onelineReview,
     );
   }
 }

@@ -19,6 +19,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffix;
   final Widget? prefix;
   final String? Function(String?)? validator;
+  final String? suffixText;
 
   const CustomTextField({
     super.key,
@@ -37,6 +38,7 @@ class CustomTextField extends StatelessWidget {
     this.suffix,
     this.prefix,
     this.validator,
+    this.suffixText,
   });
 
   @override
@@ -88,6 +90,7 @@ class CustomTextField extends StatelessWidget {
                 width: 2,
               ),
             ),
+            suffixText: suffixText,
           ),
         ),
       ],

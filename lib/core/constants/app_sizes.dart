@@ -22,7 +22,7 @@ class AppSizes {
 
   // 이미지
   static const imageThumb = 80.0;
-  static const imagePreview = 200.0;
+  static const imagePreview = 150.0;
   static const imageFull = 400.0;
 
   // 버튼

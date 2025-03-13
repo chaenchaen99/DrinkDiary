@@ -37,7 +37,7 @@ GoRouter router(RouterRef ref) {
               final wines = ref.read(wineNotifierProvider).value!;
               final wine =
                   wines.firstWhere((w) => w.id == state.pathParameters['id']);
-              return WineDetailScreen(wine: wine);
+              return WineDetailScreen(id: wine.id);
             },
           ),
           GoRoute(
