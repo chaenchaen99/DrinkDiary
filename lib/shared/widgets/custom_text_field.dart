@@ -50,9 +50,22 @@ class CustomTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: Theme.of(context).textTheme.titleMedium,
+        const SizedBox(
+          height: AppSizes.size16,
+        ),
+        Row(
+          children: [
+            Image.asset('assets/icons/check.png', width: 16, height: 16),
+            const SizedBox(width: AppSizes.paddingXS),
+            Text(
+              label,
+              style: const TextStyle(
+                color: AppColors.grey800,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: AppSizes.size16),
         TextFormField(
@@ -96,6 +109,9 @@ class CustomTextField extends StatelessWidget {
             ),
             suffixText: suffixText,
           ),
+        ),
+        const SizedBox(
+          height: AppSizes.size8,
         ),
       ],
     );

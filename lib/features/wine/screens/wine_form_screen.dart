@@ -1,4 +1,5 @@
 import 'package:drink_diary/features/wine/providers/wine_provider.dart';
+import 'package:drink_diary/shared/widgets/rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/constants/app_colors.dart';
@@ -31,17 +32,17 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
   final _shopController = TextEditingController();
   final _alcoholContentController = TextEditingController();
   final _foodPairingController = TextEditingController();
-  final _sweetnessController = TextEditingController();
+  final _aromaController = TextEditingController();
   final _reviewController = TextEditingController();
 
-  double _aroma = 3;
+  double _sweetness = 3;
   double _body = 3;
   double _tannin = 3;
   double _acidity = 3;
   double _rating = 3;
   List<String> _images = [];
   List<String> _foodPairings = [];
-  List<String> _sweetness = [];
+  List<String> _aroma = [];
 
   @override
   void initState() {
@@ -59,9 +60,8 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
         widget.wine?.alcoholContent.toString() ?? '0';
     _foodPairings =
         (widget.wine?.foodPairing as List<dynamic>?)?.cast<String>() ?? [];
-    _sweetness =
-        (widget.wine?.sweetness as List<dynamic>?)?.cast<String>() ?? [];
-    _aroma = widget.wine?.aroma.toDouble() ?? 3;
+    _aroma = (widget.wine?.aroma as List<dynamic>?)?.cast<String>() ?? [];
+    _sweetness = widget.wine?.sweetness.toDouble() ?? 3;
     _body = widget.wine?.body.toDouble() ?? 3;
     _tannin = widget.wine?.tannin.toDouble() ?? 3;
     _acidity = widget.wine?.acidity.toDouble() ?? 3;
@@ -102,19 +102,19 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
     });
   }
 
-  void _addSweetness() {
-    final text = _sweetnessController.text.trim();
+  void _addAroma() {
+    final text = _aromaController.text.trim();
     if (text.isNotEmpty) {
       setState(() {
-        _sweetness.add(text);
-        _sweetnessController.clear();
+        _aroma.add(text);
+        _aromaController.clear();
       });
     }
   }
 
-  void _removeSweetness(int index) {
+  void _removeAroma(int index) {
     setState(() {
-      _sweetness.removeAt(index);
+      _aroma.removeAt(index);
     });
   }
 
@@ -131,11 +131,11 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
         price: double.parse(_priceController.text),
         shop: _shopController.text,
         alcoholContent: double.parse(_alcoholContentController.text),
-        aroma: _aroma.round(),
+        sweetness: _sweetness.round(),
         body: _body.round(),
         tannin: _tannin.round(),
         acidity: _acidity.round(),
-        sweetness: _sweetness,
+        aroma: _aroma,
         rating: _rating,
         foodPairing: _foodPairings,
         images: _images,
@@ -203,11 +203,10 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
                     });
                   },
                 ),
-                const SizedBox(height: AppSizes.size24),
                 CustomTextField(
                   controller: _nameController,
-                  label: '와인 이름',
                   hint: '와인 이름을 입력해주세요',
+                  label: '와인 이름',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return '와인 이름을 입력해주세요';
@@ -223,7 +222,6 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
                     });
                   },
                 ),
-                const SizedBox(height: AppSizes.size16),
                 CustomTextField(
                   controller: _onelineReviewController,
                   label: '한줄평',
@@ -243,7 +241,6 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
                     });
                   },
                 ),
-                const SizedBox(height: AppSizes.size24),
                 CustomTextField(
                   controller: _foodPairingController,
                   label: '음식 페어링',
@@ -254,7 +251,6 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
                     }
                   },
                 ),
-                const SizedBox(height: AppSizes.size8),
                 Wrap(
                   spacing: AppSizes.size8,
                   runSpacing: AppSizes.size8,
@@ -265,7 +261,6 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
                     );
                   }).toList(),
                 ),
-                const SizedBox(height: AppSizes.size8),
                 CustomTextField(
                   minLines: 2,
                   maxLines: null,
@@ -273,45 +268,38 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
                   label: '기록',
                   hint: '와인과 함께한 기분좋은 시간에 대해 나눠주세요',
                 ),
-                const SizedBox(height: AppSizes.size16),
                 CustomTextField(
                   controller: _productionYearController,
                   label: '생산년도',
                   hint: 'YYYY',
                   keyboardType: TextInputType.number,
                 ),
-                const SizedBox(height: AppSizes.size16),
                 CustomTextField(
                   controller: _regionController,
                   label: '생산지',
                   hint: '와인 생산지를 입력하세요',
                 ),
-                const SizedBox(height: AppSizes.size16),
                 CustomTextField(
                   controller: _varietyController,
                   label: '품종',
                   hint: '포도 품종을 입력하세요',
                 ),
-                const SizedBox(height: AppSizes.size16),
                 CustomTextField(
                   controller: _wineryController,
                   label: '와이너리',
                   hint: '와이너리 이름을 입력하세요',
                 ),
-                const SizedBox(height: AppSizes.size16),
                 CustomTextField(
                   controller: _priceController,
                   label: '가격',
                   hint: '가격을 입력하세요',
                   keyboardType: TextInputType.number,
                 ),
-                const SizedBox(height: AppSizes.size16),
                 CustomTextField(
                   controller: _shopController,
                   label: '구매처',
                   hint: '구매처를 입력하세요',
                 ),
-                const SizedBox(height: AppSizes.size16),
                 CustomTextField(
                   controller: _alcoholContentController,
                   label: '알코올 도수',
@@ -319,37 +307,53 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
                   keyboardType: TextInputType.number,
                   suffixText: '%',
                 ),
-                const SizedBox(height: AppSizes.size16),
                 CustomTextField(
                   controller: _foodPairingController,
                   label: '향',
                   hint: '#딸기',
                   onSubmitted: (value) {
                     if (value.startsWith('#')) {
-                      _addSweetness();
+                      _addAroma();
                     }
                   },
                 ),
-                const SizedBox(height: AppSizes.size8),
                 Wrap(
                   spacing: AppSizes.size8,
                   runSpacing: AppSizes.size8,
                   children: _foodPairings.asMap().entries.map((entry) {
                     return Chip(
                       label: Text(entry.value),
-                      onDeleted: () => _removeSweetness(entry.key),
+                      onDeleted: () => _removeAroma(entry.key),
                     );
                   }).toList(),
                 ),
                 const SizedBox(height: AppSizes.size8),
                 _buildSlider(
-                    '바디감', _body, (value) => setState(() => _body = value)),
+                    '바디감',
+                    _body,
+                    (value) => setState(() => _body = value),
+                    AppColors.wineColors[0]),
                 _buildSlider(
-                    '타닌', _tannin, (value) => setState(() => _tannin = value)),
-                _buildSlider('산도', _acidity,
-                    (value) => setState(() => _acidity = value)),
+                    '타닌',
+                    _tannin,
+                    (value) => setState(() => _tannin = value),
+                    AppColors.wineColors[1]),
                 _buildSlider(
-                    '추천도', _rating, (value) => setState(() => _rating = value)),
+                    '산도',
+                    _acidity,
+                    (value) => setState(() => _acidity = value),
+                    AppColors.wineColors[2]),
+                _buildSlider(
+                    '당도',
+                    _acidity,
+                    (value) => setState(() => _sweetness = value),
+                    AppColors.wineColors[3]),
+                const SizedBox(height: AppSizes.size8),
+                RatingBar(
+                  label: '추천도',
+                  rating: 3.0,
+                  onChanged: (value) => setState(() => _rating = value),
+                ),
                 const SizedBox(height: AppSizes.size56),
               ],
             ),
@@ -360,22 +364,42 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
   }
 
   Widget _buildSlider(
-      String label, double value, ValueChanged<double> onChanged) {
+    String label,
+    double value,
+    ValueChanged<double> onChanged,
+    Color activeColor,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(label),
+            Row(
+              children: [
+                Image.asset('assets/icons/check.png', width: 16, height: 16),
+                const SizedBox(width: AppSizes.paddingXS),
+                Text(
+                  label,
+                  style: const TextStyle(
+                    color: AppColors.grey800,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
             Text(value.round().toString()),
           ],
         ),
         Slider(
           value: value,
-          min: 1,
+          min: 0,
           max: 5,
           divisions: 4,
+          label: value.round().toString(),
+          activeColor: activeColor,
+          inactiveColor: Colors.grey.shade100,
           onChanged: onChanged,
         ),
       ],

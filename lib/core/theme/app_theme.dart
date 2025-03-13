@@ -32,6 +32,7 @@ class AppTheme {
       indicatorColor: AppColors.winePrimary.withOpacity(0.1),
       labelTextStyle: WidgetStateProperty.all(
         const TextStyle(
+          color: Colors.white,
           fontSize: 12,
           fontWeight: FontWeight.w500,
         ),

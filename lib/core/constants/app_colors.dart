@@ -45,11 +45,10 @@ class AppColors {
   static const Color positive = Color(0xFF4CAF50);
 
   // Rating Colors
-  static const List<Color> ratingColors = [
-    Color(0xFFFFE082), // 1점
-    Color(0xFFFFD54F), // 2점
-    Color(0xFFFFCA28), // 3점
-    Color(0xFFFFB300), // 4점
-    Color(0xFFFFA000), // 5점
+  static const List<Color> wineColors = [
+    Color(0xFF56021F), // 바디감
+    Color(0xFF7D1C4A), // 타닌
+    Color(0xFFD17D98), // 산도
+    Color(0xFFF4CCE9), // 당도
   ];
 }

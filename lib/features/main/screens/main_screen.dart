@@ -32,13 +32,6 @@ class MainScreen extends ConsumerWidget {
         child: NavigationBar(
           selectedIndex: selectedIndex,
           backgroundColor: Colors.transparent,
-          labelTextStyle: WidgetStateProperty.resolveWith((states) {
-            if (states.contains(WidgetState.selected)) {
-              return const TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.bold);
-            }
-            return const TextStyle(color: Colors.white);
-          }),
           onDestinationSelected: (index) {
             ref.read(selectedIndexProvider.notifier).state = index;
           },

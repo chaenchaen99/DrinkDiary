@@ -20,7 +20,7 @@ class Wine with _$Wine {
     @HiveField(8) required double alcoholContent,
 
     // 테이스팅 노트
-    @HiveField(9) required int aroma, // 1-5
+    @HiveField(9) required int sweetness, // 1-5
 
     @HiveField(10) required int body, // 1-5
 
@@ -36,7 +36,7 @@ class Wine with _$Wine {
     @HiveField(17) List<String>? tags,
     @HiveField(18) required DateTime createdAt,
     @HiveField(19) DateTime? updatedAt,
-    @HiveField(20) required List<String> sweetness,
+    @HiveField(20) required List<String> aroma,
     @HiveField(21) String? onelineReview,
   }) = _Wine;
 
@@ -52,16 +52,16 @@ class Wine with _$Wine {
     double price = 0,
     String shop = '',
     double alcoholContent = 0,
-    int aroma = 3,
-    int body = 3,
-    int tannin = 3,
-    int acidity = 3,
+    int sweetness = 3,
+    int body = 3, //바디
+    int tannin = 3, //타닌
+    int acidity = 3, //산도
     List<String> foodPairing = const [],
     double rating = 0,
     String? review,
     List<String>? images,
     List<String>? tags,
-    List<String> sweetness = const [],
+    List<String> aroma = const [],
     String? onelineReview,
   }) {
     return Wine(
@@ -78,6 +78,7 @@ class Wine with _$Wine {
       body: body,
       tannin: tannin,
       acidity: acidity,
+      sweetness: sweetness,
       foodPairing: foodPairing,
       rating: rating,
       review: review,
@@ -85,7 +86,6 @@ class Wine with _$Wine {
       tags: tags,
       createdAt: DateTime.now(),
       updatedAt: null,
-      sweetness: sweetness,
       onelineReview: onelineReview,
     );
   }
