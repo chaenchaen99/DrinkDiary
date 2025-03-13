@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:drink_diary/features/wine/providers/wine_provider.dart';
+import 'package:drink_diary/shared/widgets/drink_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -38,52 +39,25 @@ class WineListScreen extends ConsumerWidget {
             );
           }
 
-          return ListView.builder(
+          return GridView.builder(
             padding: const EdgeInsets.all(AppSizes.size16),
             itemCount: wines.length,
             itemBuilder: (context, index) {
               final wine = wines[index];
-              return Card(
-                margin: const EdgeInsets.only(bottom: AppSizes.size16),
-                child: ListTile(
-                  leading: wine.images?.isNotEmpty == true
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(AppSizes.size4),
-                          child: Image.file(
-                            File(wine.images!.first),
-                            width: AppSizes.size48,
-                            height: AppSizes.size48,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : Container(
-                          width: AppSizes.size48,
-                          height: AppSizes.size48,
-                          decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? AppColors.lightGrey
-                                    : AppColors.darkGrey,
-                            borderRadius: BorderRadius.circular(AppSizes.size4),
-                          ),
-                          child: const Icon(Icons.wine_bar),
-                        ),
-                  title: Text(wine.name),
-                  subtitle: Text(wine.variety),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.star, size: AppSizes.size16),
-                      const SizedBox(width: AppSizes.size4),
-                      Text(wine.rating.toString()),
-                    ],
-                  ),
-                  onTap: () {
-                    // TODO: 와인 상세 화면으로 이동
-                  },
-                ),
-              );
+              return DrinkListItem(
+                  name: wine.name,
+                  onTap: () {},
+                  imagePath: wine.images != null && wine.images!.isNotEmpty
+                      ? wine.images!.first
+                      : 'assets/images/wine_default.png',
+                  onelineReview: wine.onelineReview ?? '');
             },
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, // 한 줄에 2개 항목
+              crossAxisSpacing: AppSizes.size8, // 열 간격
+              mainAxisSpacing: AppSizes.size8, // 행 간격
+              childAspectRatio: 0.7, // 각 항목의 비율 (가로/세로)
+            ),
           );
         },
         loading: () => const Center(

@@ -11,7 +11,7 @@ class Wine with _$Wine {
   const factory Wine({
     @HiveField(0) required String id,
     @HiveField(1) required String name,
-    @HiveField(2) required int productionYear,
+    @HiveField(2) required String productionYear,
     @HiveField(3) required String region,
     @HiveField(4) required String variety,
     @HiveField(5) required String winery,
@@ -36,7 +36,7 @@ class Wine with _$Wine {
     @HiveField(17) List<String>? tags,
     @HiveField(18) required DateTime createdAt,
     @HiveField(19) DateTime? updatedAt,
-    @HiveField(20) required int sweetness,
+    @HiveField(20) required List<String> sweetness,
     @HiveField(21) String? onelineReview,
   }) = _Wine;
 
@@ -45,7 +45,7 @@ class Wine with _$Wine {
   // 새로운 와인 생성을 위한 팩토리 생성자
   factory Wine.create({
     String name = '',
-    int productionYear = 0,
+    String productionYear = '',
     String region = '',
     String variety = '',
     String winery = '',
@@ -61,7 +61,7 @@ class Wine with _$Wine {
     String? review,
     List<String>? images,
     List<String>? tags,
-    int sweetness = 3,
+    List<String> sweetness = const [],
     String? onelineReview,
   }) {
     return Wine(

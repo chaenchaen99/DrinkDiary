@@ -8,8 +8,6 @@ import '../../../core/constants/app_sizes.dart';
 import '../providers/category_provider.dart';
 import '../../wine/screens/wine_list_screen.dart';
 import '../../cocktail/screens/cocktail_list_screen.dart';
-import '../widgets/home_appbar.dart';
-import '../../../shared/widgets/drink_list_item.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -18,7 +16,6 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final category = ref.watch(categoryNotifierProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final isWine = category == DrinkCategory.wine;
 
     return Scaffold(
       appBar: const HomeAppbar(),
