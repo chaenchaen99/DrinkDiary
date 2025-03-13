@@ -20,28 +20,28 @@ class CustomAppBarTheme {
 
   static final CustomAppBarTheme wine = CustomAppBarTheme(
     systemUiOverlayStyle: SystemUiOverlayStyle.light,
-    backgroundColor: AppColors.primary,
-    logoColor: AppColors.onPrimary,
+    backgroundColor: AppColors.winePrimary,
+    logoColor: AppColors.third,
     iconColor: AppColors.onPrimary,
-    containerColor: AppColors.primaryContainer,
+    containerColor: AppColors.wineBackground,
     indicatorColor: AppColors.onPrimary,
-    labelColor: AppColors.primary,
+    labelColor: AppColors.winePrimary,
     unselectedLabelColor: AppColors.onPrimary,
-    badgeBgColor: AppColors.background,
-    badgeNumColor: AppColors.primary,
+    badgeBgColor: AppColors.black,
+    badgeNumColor: AppColors.winePrimary,
   );
 
   static final CustomAppBarTheme cocktail = CustomAppBarTheme(
     systemUiOverlayStyle: SystemUiOverlayStyle.dark,
-    backgroundColor: AppColors.background,
-    logoColor: AppColors.primary,
+    backgroundColor: AppColors.cocktailPrimary,
+    logoColor: AppColors.third,
     iconColor: AppColors.contentPrimary,
-    containerColor: AppColors.surface,
-    indicatorColor: AppColors.primary,
-    labelColor: AppColors.onPrimary,
-    unselectedLabelColor: AppColors.contentPrimary,
-    badgeBgColor: AppColors.primary,
-    badgeNumColor: AppColors.background,
+    containerColor: AppColors.cocktailBackground,
+    indicatorColor: AppColors.onPrimary,
+    labelColor: AppColors.cocktailPrimary,
+    unselectedLabelColor: AppColors.onPrimary,
+    badgeBgColor: AppColors.black,
+    badgeNumColor: AppColors.black,
   );
 
   CustomAppBarTheme({

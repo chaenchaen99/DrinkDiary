@@ -40,11 +40,7 @@ class HomeScreen extends ConsumerWidget {
           context.push(
               category == DrinkCategory.wine ? '/wines/add' : '/cocktails/add');
         },
-        backgroundColor: isDark
-            ? (category == DrinkCategory.wine
-                ? AppColors.primary
-                : AppColors.secondary)
-            : null,
+        backgroundColor: category.theme.backgroundColor,
         child: const Icon(Icons.add),
       ),
     );

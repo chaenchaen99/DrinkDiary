@@ -67,7 +67,8 @@ class _TagInputState extends State<TagInput> {
                   backgroundColor:
                       isDark ? AppColors.secondary : AppColors.onSecondary,
                   side: BorderSide(
-                    color: isDark ? AppColors.primary : AppColors.onSecondary,
+                    color:
+                        isDark ? AppColors.winePrimary : AppColors.onSecondary,
                   ),
                 )),
             SizedBox(
@@ -84,7 +85,8 @@ class _TagInputState extends State<TagInput> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(AppSizes.inputRadius),
                     borderSide: BorderSide(
-                      color: isDark ? AppColors.primary : AppColors.onPrimary,
+                      color:
+                          isDark ? AppColors.winePrimary : AppColors.onPrimary,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
@@ -97,7 +99,8 @@ class _TagInputState extends State<TagInput> {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(AppSizes.inputRadius),
                     borderSide: BorderSide(
-                      color: isDark ? AppColors.primary : AppColors.secondary,
+                      color:
+                          isDark ? AppColors.winePrimary : AppColors.secondary,
                       width: 2,
                     ),
                   ),

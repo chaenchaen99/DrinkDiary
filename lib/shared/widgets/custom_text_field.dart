@@ -74,23 +74,23 @@ class CustomTextField extends StatelessWidget {
             suffixIcon: suffix,
             prefixIcon: prefix,
             filled: true,
-            fillColor: isDark ? AppColors.primary : AppColors.onPrimary,
+            fillColor: isDark ? AppColors.winePrimary : AppColors.onPrimary,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppSizes.radius8),
               borderSide: BorderSide(
-                color: isDark ? AppColors.primary : AppColors.onPrimary,
+                color: isDark ? AppColors.winePrimary : AppColors.onPrimary,
               ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppSizes.radius8),
               borderSide: BorderSide(
-                color: isDark ? AppColors.primary : AppColors.onPrimary,
+                color: isDark ? AppColors.winePrimary : AppColors.onPrimary,
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppSizes.radius8),
               borderSide: BorderSide(
-                color: isDark ? AppColors.primary : AppColors.onPrimary,
+                color: isDark ? AppColors.winePrimary : AppColors.onPrimary,
                 width: 2,
               ),
             ),

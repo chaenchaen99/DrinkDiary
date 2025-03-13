@@ -89,12 +89,15 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                           isDark ? AppColors.secondary : AppColors.onSecondary,
                       borderRadius: BorderRadius.circular(AppSizes.radius12),
                       border: Border.all(
-                        color: isDark ? AppColors.primary : AppColors.onPrimary,
+                        color: isDark
+                            ? AppColors.winePrimary
+                            : AppColors.onPrimary,
                       ),
                     ),
                     child: Icon(
                       Icons.add_photo_alternate_outlined,
-                      color: isDark ? AppColors.primary : AppColors.onPrimary,
+                      color:
+                          isDark ? AppColors.winePrimary : AppColors.onPrimary,
                       size: AppSizes.iconL,
                     ),
                   ),

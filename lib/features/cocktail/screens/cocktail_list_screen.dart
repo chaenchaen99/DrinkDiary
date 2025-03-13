@@ -25,13 +25,16 @@ class CocktailListScreen extends ConsumerWidget {
                     Icons.local_bar_outlined,
                     size: AppSizes.size48,
                     color: Theme.of(context).brightness == Brightness.light
-                        ? AppColors.lightGrey
-                        : AppColors.darkGrey,
+                        ? AppColors.grey100
+                        : AppColors.grey800,
                   ),
                   const SizedBox(height: AppSizes.size16),
-                  Text(
+                  const Text(
                     '기록된 칵테일이 없습니다.',
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: TextStyle(
+                      color: AppColors.grey500,
+                      fontSize: 16,
+                    ),
                   ),
                 ],
               ),
@@ -62,8 +65,8 @@ class CocktailListScreen extends ConsumerWidget {
                           decoration: BoxDecoration(
                             color:
                                 Theme.of(context).brightness == Brightness.light
-                                    ? AppColors.lightGrey
-                                    : AppColors.darkGrey,
+                                    ? AppColors.grey100
+                                    : AppColors.grey800,
                             borderRadius: BorderRadius.circular(AppSizes.size4),
                           ),
                           child: const Icon(Icons.local_bar),

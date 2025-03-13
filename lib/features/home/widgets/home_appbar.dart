@@ -13,7 +13,7 @@ class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
       return AnimatedContainer(
         duration: const Duration(milliseconds: 400),
         color: state.theme.backgroundColor,
-        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
         child: AppBar(
           backgroundColor: Colors.transparent,
           title: AnimatedContainer(
@@ -25,7 +25,7 @@ class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
               color: state.theme.containerColor,
             ),
             child: SizedBox(
-              height: 28,
+              height: 32,
               width: 144,
               child: DefaultTabController(
                 initialIndex: state.index,

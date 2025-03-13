@@ -9,11 +9,11 @@ class AppTheme {
       titleMedium: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w500,
-        color: AppColors.contentPrimary,
+        color: AppColors.grey800,
       ),
     ),
     colorScheme: const ColorScheme.light(
-      primary: AppColors.primary,
+      primary: AppColors.winePrimary,
       secondary: AppColors.secondary,
       surface: AppColors.surface,
       error: AppColors.error,
@@ -23,13 +23,13 @@ class AppTheme {
       onError: AppColors.onError,
     ),
     appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.wineBackground,
       foregroundColor: AppColors.contentPrimary,
       elevation: 0,
     ),
     navigationBarTheme: NavigationBarThemeData(
-      backgroundColor: AppColors.background,
-      indicatorColor: AppColors.primary.withOpacity(0.1),
+      backgroundColor: AppColors.wineBackground,
+      indicatorColor: AppColors.winePrimary.withOpacity(0.1),
       labelTextStyle: WidgetStateProperty.all(
         const TextStyle(
           fontSize: 12,
@@ -57,7 +57,7 @@ class AppTheme {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: AppColors.primary),
+        borderSide: const BorderSide(color: AppColors.winePrimary),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
@@ -85,7 +85,7 @@ class AppTheme {
       ),
     ),
     colorScheme: const ColorScheme.dark(
-      primary: AppColors.primary,
+      primary: AppColors.winePrimary,
       secondary: AppColors.secondary,
       surface: AppColors.inverseSurface,
       error: AppColors.error,
@@ -101,7 +101,7 @@ class AppTheme {
     ),
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: AppColors.black,
-      indicatorColor: AppColors.primary.withOpacity(0.1),
+      indicatorColor: AppColors.winePrimary.withOpacity(0.1),
       labelTextStyle: WidgetStateProperty.all(
         const TextStyle(
           fontSize: 12,
@@ -129,7 +129,7 @@ class AppTheme {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: AppColors.primary),
+        borderSide: const BorderSide(color: AppColors.winePrimary),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),

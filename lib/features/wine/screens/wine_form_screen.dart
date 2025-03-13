@@ -1,6 +1,7 @@
 import 'package:drink_diary/features/wine/providers/wine_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_sizes.dart';
 import '../../../data/models/wine.dart';
 import '../../../shared/widgets/custom_text_field.dart';
@@ -159,10 +160,28 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.wine == null ? '와인 기록' : '와인 기록 수정'),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        title: Text(
+          widget.wine == null ? '와인 기록' : '와인 기록 수정',
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+          ),
+        ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.check),
+            icon: const Icon(
+              Icons.check,
+              color: Colors.white,
+            ),
             onPressed: _submitForm,
           ),
         ],

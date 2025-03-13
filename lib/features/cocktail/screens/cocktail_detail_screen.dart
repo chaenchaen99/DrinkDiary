@@ -121,8 +121,8 @@ class CocktailDetailScreen extends ConsumerWidget {
                         label: Text(tag),
                         backgroundColor:
                             Theme.of(context).brightness == Brightness.light
-                                ? AppColors.lightGrey
-                                : AppColors.darkGrey,
+                                ? AppColors.grey100
+                                : AppColors.grey800,
                       ),
                     )
                     .toList(),

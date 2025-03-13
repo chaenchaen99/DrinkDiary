@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../home/providers/category_provider.dart';
 import '../../home/screens/home_screen.dart';
 import '../../settings/screens/settings_screen.dart';
 import '../../community/screens/community_screen.dart';
@@ -13,6 +14,7 @@ class MainScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedIndex = ref.watch(selectedIndexProvider);
+    final category = ref.watch(categoryNotifierProvider);
 
     final screens = [
       const HomeScreen(),
@@ -23,33 +25,46 @@ class MainScreen extends ConsumerWidget {
 
     return Scaffold(
       body: screens[selectedIndex],
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: selectedIndex,
-        onDestinationSelected: (index) {
-          ref.read(selectedIndexProvider.notifier).state = index;
-        },
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            label: '홈',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.map_outlined),
-            selectedIcon: Icon(Icons.map),
-            label: '지도',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.people_outline),
-            selectedIcon: Icon(Icons.people),
-            label: '커뮤니티',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.settings_outlined),
-            selectedIcon: Icon(Icons.settings),
-            label: '설정',
-          ),
-        ],
+      bottomNavigationBar: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        height: 100.0,
+        color: category.theme.backgroundColor,
+        child: NavigationBar(
+          selectedIndex: selectedIndex,
+          backgroundColor: Colors.transparent,
+          labelTextStyle: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return const TextStyle(
+                  color: Colors.white, fontWeight: FontWeight.bold);
+            }
+            return const TextStyle(color: Colors.white);
+          }),
+          onDestinationSelected: (index) {
+            ref.read(selectedIndexProvider.notifier).state = index;
+          },
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(Icons.home_outlined, color: Colors.white),
+              selectedIcon: Icon(Icons.home, color: Colors.white),
+              label: '홈',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.map_outlined, color: Colors.white),
+              selectedIcon: Icon(Icons.map, color: Colors.white),
+              label: '지도',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.people_outline, color: Colors.white),
+              selectedIcon: Icon(Icons.people, color: Colors.white),
+              label: '커뮤니티',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.settings_outlined, color: Colors.white),
+              selectedIcon: Icon(Icons.settings, color: Colors.white),
+              label: '설정',
+            ),
+          ],
+        ),
       ),
     );
   }
