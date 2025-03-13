@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'core/theme/app_theme.dart';
-import 'core/router/app_router.dart';
+import 'features/main/screens/main_screen.dart';
 import 'data/models/cocktail.dart';
 import 'data/models/wine.dart';
 
@@ -33,14 +33,12 @@ class DrinkDiaryApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final router = ref.watch(routerProvider);
-
-    return MaterialApp.router(
+    return MaterialApp(
       title: 'Drink Diary',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
-      routerConfig: router,
+      home: const MainScreen(),
     );
   }
 }
