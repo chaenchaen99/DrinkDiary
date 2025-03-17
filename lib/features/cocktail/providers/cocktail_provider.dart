@@ -35,13 +35,6 @@ class CocktailNotifier extends _$CocktailNotifier {
             .toList();
       }
 
-      if (filter.selectedDifficulty != null) {
-        cocktails = cocktails
-            .where(
-                (cocktail) => cocktail.difficulty == filter.selectedDifficulty)
-            .toList();
-      }
-
       if (filter.minRating != null) {
         cocktails = cocktails
             .where((cocktail) => cocktail.rating >= filter.minRating!)

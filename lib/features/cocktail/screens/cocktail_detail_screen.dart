@@ -114,13 +114,13 @@ class CocktailDetailScreen extends ConsumerWidget {
               ),
               const SizedBox(height: AppSizes.size24),
             ],
-            if (cocktail.note != null && cocktail.note!.isNotEmpty) ...[
+            if (cocktail.review != null && cocktail.review!.isNotEmpty) ...[
               Text(
                 '메모',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: AppSizes.size16),
-              Text(cocktail.note!),
+              Text(cocktail.review!),
             ],
           ],
         ),

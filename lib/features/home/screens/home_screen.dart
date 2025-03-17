@@ -2,9 +2,7 @@ import 'package:drink_diary/features/home/widgets/home_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../core/constants/app_colors.dart';
-import '../../../core/constants/app_sizes.dart';
 import '../providers/category_provider.dart';
 import '../../wine/screens/wine_list_screen.dart';
 import '../../cocktail/screens/cocktail_list_screen.dart';

@@ -39,7 +39,7 @@ extension MallTypeExtension on DrinkCategory {
   }
 
   bool get isWine => this == DrinkCategory.wine;
-  bool get isBeauty => this == DrinkCategory.cocktail;
+  bool get isCocktail => this == DrinkCategory.cocktail;
 
   CustomAppBarTheme get theme {
     switch (this) {

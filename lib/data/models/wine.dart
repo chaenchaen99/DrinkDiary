@@ -1,3 +1,4 @@
+import 'package:drink_diary/data/models/drink.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
@@ -6,45 +7,40 @@ part 'wine.freezed.dart';
 part 'wine.g.dart';
 
 @freezed
-@HiveType(typeId: 0)
-class Wine with _$Wine {
+@HiveType(typeId: 1)
+class Wine with _$Wine implements Drink, TimestampMixin {
+  @Implements<Drink>()
   const factory Wine({
+    // 기본 Drink 필드
     @HiveField(0) required String id,
     @HiveField(1) required String name,
-    @HiveField(2) required String productionYear,
-    @HiveField(3) required String region,
-    @HiveField(4) required String variety,
-    @HiveField(5) required String winery,
-    @HiveField(6) required double price,
-    @HiveField(7) required String shop,
-    @HiveField(8) required double alcoholContent,
+    @HiveField(2) required double rating,
+    @HiveField(3) required DateTime createdAt,
+    @HiveField(4) DateTime? updatedAt,
+    @HiveField(5) List<String>? images,
+    @HiveField(6) String? onelineReview,
 
-    // 테이스팅 노트
-    @HiveField(9) required int sweetness, // 1-5
-
-    @HiveField(10) required int body, // 1-5
-
-    @HiveField(11) required int tannin, // 1-5
-
-    @HiveField(12) required int acidity, // 1-5
-
-    @HiveField(13) required List<String> foodPairing,
-    @HiveField(14) required double rating, // 1-5
-
-    @HiveField(15) String? review,
-    @HiveField(16) List<String>? images,
-    @HiveField(17) List<String>? tags,
-    @HiveField(18) required DateTime createdAt,
-    @HiveField(19) DateTime? updatedAt,
-    @HiveField(20) required List<String> aroma,
-    @HiveField(21) String? onelineReview,
+    // 와인 전용 필드
+    @HiveField(7) required String productionYear,
+    @HiveField(8) required String region,
+    @HiveField(9) required String variety,
+    @HiveField(10) required String winery,
+    @HiveField(11) required double price,
+    @HiveField(12) required String shop,
+    @HiveField(13) required double alcoholContent,
+    @HiveField(14) required int sweetness,
+    @HiveField(15) required int body,
+    @HiveField(16) required int tannin,
+    @HiveField(17) required int acidity,
+    @HiveField(18) required List<String> foodPairing,
+    @HiveField(19) String? review, // 상세 리뷰
+    @HiveField(20) List<String>? tags,
+    @HiveField(21) required List<String> aroma,
   }) = _Wine;
 
-  factory Wine.fromJson(Map<String, dynamic> json) => _$WineFromJson(json);
-
-  // 새로운 와인 생성을 위한 팩토리 생성자
   factory Wine.create({
-    String name = '',
+    required String name,
+    double rating = 3.0,
     String productionYear = '',
     String region = '',
     String variety = '',
@@ -53,20 +49,23 @@ class Wine with _$Wine {
     String shop = '',
     double alcoholContent = 0,
     int sweetness = 3,
-    int body = 3, //바디
-    int tannin = 3, //타닌
-    int acidity = 3, //산도
+    int body = 3,
+    int tannin = 3,
+    int acidity = 3,
     List<String> foodPairing = const [],
-    double rating = 0,
-    String? review,
-    List<String>? images,
-    List<String>? tags,
     List<String> aroma = const [],
     String? onelineReview,
+    String? review,
+    List<String>? images,
   }) {
     return Wine(
       id: const Uuid().v4(),
       name: name,
+      rating: rating,
+      createdAt: DateTime.now(),
+      updatedAt: null,
+      images: images,
+      onelineReview: onelineReview,
       productionYear: productionYear,
       region: region,
       variety: variety,
@@ -74,19 +73,16 @@ class Wine with _$Wine {
       price: price,
       shop: shop,
       alcoholContent: alcoholContent,
-      aroma: aroma,
+      sweetness: sweetness,
       body: body,
       tannin: tannin,
       acidity: acidity,
-      sweetness: sweetness,
       foodPairing: foodPairing,
-      rating: rating,
+      aroma: aroma,
       review: review,
-      images: images,
-      tags: tags,
-      createdAt: DateTime.now(),
-      updatedAt: null,
-      onelineReview: onelineReview,
+      tags: [],
     );
   }
+
+  factory Wine.fromJson(Map<String, dynamic> json) => _$WineFromJson(json);
 }

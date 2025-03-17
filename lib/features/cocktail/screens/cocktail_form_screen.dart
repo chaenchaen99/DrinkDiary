@@ -1,3 +1,4 @@
+import 'package:drink_diary/shared/widgets/form_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/constants/app_sizes.dart';
@@ -24,7 +25,7 @@ class _CocktailFormScreenState extends ConsumerState<CocktailFormScreen> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _nameController;
   late final TextEditingController _baseController;
-  late final TextEditingController _noteController;
+  late final TextEditingController _reviewController;
   late final TextEditingController _ingredientControllers;
   late final TextEditingController _recipeControllers;
   late final TextEditingController _onelineReviewControllers;
@@ -38,7 +39,7 @@ class _CocktailFormScreenState extends ConsumerState<CocktailFormScreen> {
     super.initState();
     _nameController = TextEditingController(text: widget.cocktail?.name);
     _baseController = TextEditingController(text: widget.cocktail?.base);
-    _noteController = TextEditingController(text: widget.cocktail?.note);
+    _reviewController = TextEditingController(text: widget.cocktail?.review);
     _ingredientControllers =
         TextEditingController(text: widget.cocktail?.ingredients);
     _recipeControllers = TextEditingController(text: widget.cocktail?.recipe);
@@ -55,7 +56,7 @@ class _CocktailFormScreenState extends ConsumerState<CocktailFormScreen> {
   void dispose() {
     _nameController.dispose();
     _baseController.dispose();
-    _noteController.dispose();
+    _reviewController.dispose();
     _ingredientControllers.dispose();
     _recipeControllers.dispose();
     _tasteTagController.dispose();
@@ -67,14 +68,10 @@ class _CocktailFormScreenState extends ConsumerState<CocktailFormScreen> {
     final category = ref.watch(categoryNotifierProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.cocktail == null ? '칵테일 추가' : '칵테일 수정'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.check),
-            onPressed: _onSubmit,
-          ),
-        ],
+      appBar: FormAppBar(
+        onSubmit: _onSubmit,
+        drinkName: category.isCocktail ? '칵테일' : '와인',
+        category: category,
       ),
       body: Form(
         key: _formKey,
@@ -182,7 +179,7 @@ class _CocktailFormScreenState extends ConsumerState<CocktailFormScreen> {
               ),
               const SizedBox(height: AppSizes.size8),
               CustomTextField(
-                controller: _noteController,
+                controller: _reviewController,
                 label: '기록',
                 hint: '칵테일과 함께했던 몽글몽글한 시간을 나눠주세요',
                 maxLines: 5,
@@ -204,7 +201,7 @@ class _CocktailFormScreenState extends ConsumerState<CocktailFormScreen> {
         rating: _rating,
         ingredients: _ingredientControllers.text,
         recipe: _recipeControllers.text,
-        note: _noteController.text,
+        review: _reviewController.text,
         tags: _tasteTags,
         images: _images,
         createdAt: widget.cocktail?.createdAt ?? DateTime.now(),

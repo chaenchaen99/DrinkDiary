@@ -37,14 +37,14 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
   final _aromaController = TextEditingController();
   final _reviewController = TextEditingController();
 
+  List<String> _images = [];
+  List<String> _aroma = [];
+  List<String> _foodPairings = [];
   double _sweetness = 3;
   double _body = 3;
   double _tannin = 3;
   double _acidity = 3;
   double _rating = 3;
-  List<String> _images = [];
-  List<String> _foodPairings = [];
-  List<String> _aroma = [];
 
   @override
   void initState() {
@@ -94,7 +94,11 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
     final category = ref.watch(categoryNotifierProvider);
 
     return Scaffold(
-      appBar: FormAppBar(onSubmit: _submitForm),
+      appBar: FormAppBar(
+        onSubmit: _submitForm,
+        drinkName: category.isWine ? '와인' : '칵테일',
+        category: category,
+      ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Form(
