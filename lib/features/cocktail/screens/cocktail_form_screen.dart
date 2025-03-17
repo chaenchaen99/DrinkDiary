@@ -106,42 +106,30 @@ class _CocktailFormScreenState extends ConsumerState<CocktailFormScreen> {
                 label: '한줄평',
                 hint: '한줄평을 입력해주세요',
                 maxLines: 1,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return '한줄평을 입력해주세요';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: AppSizes.size8),
               CustomTextField(
                 controller: _baseController,
                 label: '베이스',
-                hint: '베이스를 입력하세요',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return '베이스를 입력해주세요';
-                  }
-                  return null;
-                },
+                hint: '베이스를 입력해주세요',
               ),
               const SizedBox(height: AppSizes.size8),
               CustomTextField(
                 controller: _baseController,
                 label: '재료',
                 hint: '재료를 입력해주세요',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return '재료를 입력해주세요';
-                  }
-                  return null;
-                },
               ),
               const SizedBox(height: AppSizes.size8),
               CustomTextField(
                 controller: _baseController,
                 label: '레시피',
                 hint: '레시피를 입력해주세요',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return '레시피를 입력해주세요';
-                  }
-                  return null;
-                },
               ),
               const SizedBox(height: AppSizes.size8),
               CustomTextField(
