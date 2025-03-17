@@ -7,6 +7,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_sizes.dart';
 import '../../../data/models/wine.dart';
 import '../../../shared/widgets/custom_text_field.dart';
+import '../../../shared/widgets/form_app_bar.dart';
 import '../../../shared/widgets/image_picker_widget.dart';
 
 class WineFormScreen extends ConsumerStatefulWidget {
@@ -56,6 +57,7 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
     _varietyController.text = widget.wine?.variety ?? '';
     _wineryController.text = widget.wine?.winery ?? '';
     _priceController.text = widget.wine?.price.toString() ?? '0';
+    _foodPairingController.text = widget.wine?.foodPairing.toString() ?? '';
     _shopController.text = widget.wine?.shop ?? '';
     _alcoholContentController.text =
         widget.wine?.alcoholContent.toString() ?? '0';
@@ -87,108 +89,12 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
     super.dispose();
   }
 
-  void _addFoodPairing() {
-    final text = _foodPairingController.text.trim();
-    if (text.isNotEmpty) {
-      setState(() {
-        _foodPairings.add(text);
-        _foodPairingController.clear();
-      });
-    }
-  }
-
-  void _removeFoodPairing(int index) {
-    setState(() {
-      _foodPairings.removeAt(index);
-    });
-  }
-
-  void _addAroma() {
-    final text = _aromaController.text.trim();
-    if (text.isNotEmpty) {
-      setState(() {
-        _aroma.add(text);
-        _aromaController.clear();
-      });
-    }
-  }
-
-  void _removeAroma(int index) {
-    setState(() {
-      _aroma.removeAt(index);
-    });
-  }
-
-  Future<void> _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      final wine = Wine(
-        id: widget.wine?.id ?? DateTime.now().toString(),
-        name: _nameController.text,
-        onelineReview: _onelineReviewController.text,
-        productionYear: _productionYearController.text,
-        region: _regionController.text,
-        variety: _varietyController.text,
-        winery: _wineryController.text,
-        price: double.parse(_priceController.text),
-        shop: _shopController.text,
-        alcoholContent: double.parse(_alcoholContentController.text),
-        sweetness: _sweetness.round(),
-        body: _body.round(),
-        tannin: _tannin.round(),
-        acidity: _acidity.round(),
-        aroma: _aroma,
-        rating: _rating,
-        foodPairing: _foodPairings,
-        images: _images,
-        createdAt: widget.wine?.createdAt ?? DateTime.now(),
-        updatedAt: DateTime.now(),
-        review: _reviewController.text,
-      );
-
-      if (widget.wine == null) {
-        ref.read(wineNotifierProvider.notifier).addWine(wine);
-      } else {
-        ref.read(wineNotifierProvider.notifier).updateWine(wine);
-      }
-
-      if (mounted) {
-        Navigator.of(context).pop();
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final category = ref.watch(categoryNotifierProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        title: Text(
-          widget.wine == null ? '와인 기록' : '와인 기록 수정',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.check,
-              color: Colors.white,
-            ),
-            onPressed: _submitForm,
-          ),
-        ],
-      ),
+      appBar: FormAppBar(onSubmit: _submitForm),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Form(
@@ -263,13 +169,6 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
                       onDeleted: () => _removeFoodPairing(entry.key),
                     );
                   }).toList(),
-                ),
-                CustomTextField(
-                  minLines: 2,
-                  maxLines: null,
-                  controller: _reviewController,
-                  label: '기록',
-                  hint: '와인과 함께한 기분좋은 시간에 대해 나눠주세요',
                 ),
                 CustomTextField(
                   controller: _productionYearController,
@@ -354,10 +253,17 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
                 const SizedBox(height: AppSizes.size8),
                 RatingBar(
                   label: '추천도',
-                  rating: 3.0,
+                  rating: _rating,
                   activeColor: category.theme.backgroundColor,
                   inactiveColor: category.theme.backgroundColor,
                   onChanged: (value) => setState(() => _rating = value),
+                ),
+                const SizedBox(height: AppSizes.size8),
+                CustomTextField(
+                  controller: _reviewController,
+                  label: '기록',
+                  hint: '칵테일과 함께했던 몽글몽글한 시간을 나눠주세요',
+                  maxLines: 5,
                 ),
                 const SizedBox(height: AppSizes.size56),
               ],
@@ -409,5 +315,75 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
         ),
       ],
     );
+  }
+
+  void _addFoodPairing() {
+    final text = _foodPairingController.text.trim();
+    if (text.isNotEmpty) {
+      setState(() {
+        _foodPairings.add(text);
+        _foodPairingController.clear();
+      });
+    }
+  }
+
+  void _removeFoodPairing(int index) {
+    setState(() {
+      _foodPairings.removeAt(index);
+    });
+  }
+
+  void _addAroma() {
+    final text = _aromaController.text.trim();
+    if (text.isNotEmpty) {
+      setState(() {
+        _aroma.add(text);
+        _aromaController.clear();
+      });
+    }
+  }
+
+  void _removeAroma(int index) {
+    setState(() {
+      _aroma.removeAt(index);
+    });
+  }
+
+  Future<void> _submitForm() async {
+    if (_formKey.currentState!.validate()) {
+      final wine = Wine(
+        id: widget.wine?.id ?? DateTime.now().toString(),
+        name: _nameController.text,
+        onelineReview: _onelineReviewController.text,
+        productionYear: _productionYearController.text,
+        region: _regionController.text,
+        variety: _varietyController.text,
+        winery: _wineryController.text,
+        price: double.parse(_priceController.text),
+        shop: _shopController.text,
+        alcoholContent: double.parse(_alcoholContentController.text),
+        sweetness: _sweetness.round(),
+        body: _body.round(),
+        tannin: _tannin.round(),
+        acidity: _acidity.round(),
+        aroma: _aroma,
+        rating: _rating,
+        foodPairing: _foodPairings,
+        images: _images,
+        createdAt: widget.wine?.createdAt ?? DateTime.now(),
+        updatedAt: DateTime.now(),
+        review: _reviewController.text,
+      );
+
+      if (widget.wine == null) {
+        ref.read(wineNotifierProvider.notifier).addWine(wine);
+      } else {
+        ref.read(wineNotifierProvider.notifier).updateWine(wine);
+      }
+
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+    }
   }
 }

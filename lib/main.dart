@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'features/main/screens/main_screen.dart';
 import 'data/models/cocktail.dart';
@@ -27,38 +28,40 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-final _router = GoRouter(
-  initialLocation: '/',
-  routes: [
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const MainScreen(),
-    ),
-    GoRoute(
-      path: '/wines/add',
-      builder: (context, state) => const WineFormScreen(),
-    ),
-    GoRoute(
-      path: '/wines/:id',
-      builder: (context, state) => WineDetailScreen(
-        id: state.pathParameters['id']!,
-      ),
-    ),
-  ],
-  debugLogDiagnostics: true,
-);
+// final _router = GoRouter(
+//   initialLocation: '/',
+//   routes: [
+//     GoRoute(
+//       path: '/',
+//       builder: (context, state) => const MainScreen(),
+//     ),
+//     GoRoute(
+//       path: '/wines/add',
+//       builder: (context, state) => const WineFormScreen(),
+//     ),
+//     GoRoute(
+//       path: '/wines/:id',
+//       builder: (context, state) => WineDetailScreen(
+//         id: state.pathParameters['id']!,
+//       ),
+//     ),
+//   ],
+//   debugLogDiagnostics: true,
+// );
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appRouter = ref.watch(routerProvider);
+
     return MaterialApp.router(
       title: 'Drink Diary',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
-      routerConfig: _router,
+      routerConfig: appRouter,
     );
   }
 }

@@ -67,7 +67,7 @@ class CustomTextField extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: AppSizes.size16),
+        const SizedBox(height: AppSizes.size4),
         TextFormField(
           controller: controller,
           keyboardType: keyboardType,

@@ -68,32 +68,17 @@ class CocktailDetailScreen extends ConsumerWidget {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: AppSizes.size16),
-            _buildInfoRow('베이스', cocktail.base),
-            _buildInfoRow('글래스', cocktail.glass),
-            _buildInfoRow('가니쉬', cocktail.garnish),
-            _buildInfoRow('가격', '₩${cocktail.price.toString()}'),
+            _buildInfoRow('베이스', cocktail.base ?? ''),
             const SizedBox(height: AppSizes.size24),
             Text(
               '재료',
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: AppSizes.size16),
-            if (cocktail.ingredients != null)
-              ...cocktail.ingredients!.map((ingredient) => Padding(
-                    padding: const EdgeInsets.only(bottom: AppSizes.size8),
-                    child: Text('• $ingredient'),
-                  )),
-            const SizedBox(height: AppSizes.size24),
             Text(
               '레시피',
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            const SizedBox(height: AppSizes.size16),
-            if (cocktail.recipe != null)
-              ...cocktail.recipe!.map((step) => Padding(
-                    padding: const EdgeInsets.only(bottom: AppSizes.size8),
-                    child: Text('${cocktail.recipe!.indexOf(step) + 1}. $step'),
-                  )),
             const SizedBox(height: AppSizes.size24),
             Text(
               '평가',

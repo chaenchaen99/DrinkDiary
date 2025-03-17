@@ -72,7 +72,7 @@ class CocktailListScreen extends ConsumerWidget {
                           child: const Icon(Icons.local_bar),
                         ),
                   title: Text(cocktail.name),
-                  subtitle: Text(cocktail.base),
+                  subtitle: Text(cocktail.base ?? ''),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [

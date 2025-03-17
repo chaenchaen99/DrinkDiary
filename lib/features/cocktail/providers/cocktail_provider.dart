@@ -30,7 +30,7 @@ class CocktailNotifier extends _$CocktailNotifier {
       if (filter.selectedBaseSpirit != null) {
         cocktails = cocktails
             .where((cocktail) =>
-                cocktail.base.toLowerCase() ==
+                cocktail.base?.toLowerCase() ==
                 filter.selectedBaseSpirit!.toLowerCase())
             .toList();
       }
@@ -57,14 +57,14 @@ class CocktailNotifier extends _$CocktailNotifier {
             .toList();
       }
 
-      if (filter.selectedIngredients.isNotEmpty) {
-        cocktails = cocktails
-            .where((cocktail) =>
-                cocktail.ingredients?.any((ingredient) =>
-                    filter.selectedIngredients.contains(ingredient)) ??
-                false)
-            .toList();
-      }
+      // if (filter.selectedIngredients.isNotEmpty) {
+      //   cocktails = cocktails
+      //       .where((cocktail) =>
+      //           cocktail.ingredients?.any((ingredient) =>
+      //               filter.selectedIngredients.contains(ingredient)) ??
+      //           false)
+      //       .toList();
+      // }
 
       // 최신순 정렬
       cocktails.sort((a, b) => b.createdAt.compareTo(a.createdAt));

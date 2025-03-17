@@ -48,7 +48,7 @@ class CocktailRepository {
   // 베이스 술로 칵테일 검색
   List<Cocktail> getCocktailsByBase(String base) {
     return _box.values
-        .where((cocktail) => cocktail.base.toLowerCase() == base.toLowerCase())
+        .where((cocktail) => cocktail.base?.toLowerCase() == base.toLowerCase())
         .toList();
   }
 
@@ -77,14 +77,14 @@ class CocktailRepository {
   }
 
   // 재료로 칵테일 검색
-  List<Cocktail> getCocktailsByIngredient(String ingredient) {
-    return _box.values
-        .where((cocktail) =>
-            cocktail.ingredients
-                ?.any((i) => i.toLowerCase() == ingredient.toLowerCase()) ??
-            false)
-        .toList();
-  }
+  // List<Cocktail> getCocktailsByIngredient(String ingredient) {
+  //   return _box.values
+  //       .where((cocktail) =>
+  //           cocktail.ingredients
+  //               ?.any((i) => i.toLowerCase() == ingredient.toLowerCase()) ??
+  //           false)
+  //       .toList();
+  // }
 }
 
 @riverpod
