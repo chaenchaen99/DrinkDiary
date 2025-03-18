@@ -56,17 +56,43 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
   }
 
   Future<List<String>> saveImagesToLocal(List<XFile> pickedFiles) async {
-    final directory =
-        await getApplicationDocumentsDirectory(); // 영구 저장소 경로 가져오기
     List<String> savedPaths = [];
 
-    for (var pickedFile in pickedFiles) {
-      final String newPath = '${directory.path}/${pickedFile.name}';
-      final File newImage = File(pickedFile.path).copySync(newPath); // 이미지 복사
-      savedPaths.add(newImage.path); // 저장된 이미지 경로 추가
+    // 플랫폼별 저장 경로 설정
+    Directory? directory;
+
+    if (Platform.isAndroid) {
+      // Android는 외부 저장소(Pictures) 사용
+      directory = Directory('/storage/emulated/0/Pictures');
+    } else if (Platform.isIOS) {
+      // iOS는 앱의 Document 디렉토리 사용
+      directory = await getApplicationDocumentsDirectory();
     }
 
-    return savedPaths; // 모든 이미지 경로 반환
+    if (directory == null) {
+      debugPrint('저장할 디렉토리를 찾을 수 없음');
+      return [];
+    }
+
+    for (var pickedFile in pickedFiles) {
+      final String newPath =
+          '${directory.path}/${DateTime.now().millisecondsSinceEpoch}_${pickedFile.name}';
+
+      try {
+        final File newImage = await File(pickedFile.path).copy(newPath);
+
+        if (await newImage.exists()) {
+          debugPrint('이미지 저장 완료: $newPath');
+          savedPaths.add(newImage.path);
+        } else {
+          debugPrint('이미지 저장 실패: $newPath');
+        }
+      } catch (e) {
+        debugPrint('이미지 저장 중 오류 발생: $e');
+      }
+    }
+
+    return savedPaths;
   }
 
   void _removeImage(int index) {

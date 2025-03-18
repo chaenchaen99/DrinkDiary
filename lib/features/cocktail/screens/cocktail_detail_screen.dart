@@ -1,11 +1,13 @@
 import 'dart:io';
+import 'package:drink_diary/features/home/providers/category_provider.dart';
+import 'package:drink_diary/shared/widgets/detail_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/constants/app_sizes.dart';
-import '../../../core/constants/app_colors.dart';
 import '../../../data/models/cocktail.dart';
 import '../../../shared/widgets/rating_bar.dart';
+import '../../wine/screens/wine_detail_screen.dart';
 
 class CocktailDetailScreen extends ConsumerWidget {
   final Cocktail cocktail;
@@ -17,24 +19,11 @@ class CocktailDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final category = ref.watch(categoryNotifierProvider);
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(cocktail.name),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () {
-              // TODO: 칵테일 수정 화면으로 이동
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: () {
-              // TODO: 칵테일 삭제 기능 구현
-            },
-          ),
-        ],
-      ),
+      appBar: DetailAppBar(
+          category: category, drink: cocktail, onEdit: () {}, onDelete: () {}),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppSizes.size16),
         child: Column(
@@ -63,89 +52,37 @@ class CocktailDetailScreen extends ConsumerWidget {
                 ),
               ),
             const SizedBox(height: AppSizes.size24),
-            Text(
-              '기본 정보',
-              style: Theme.of(context).textTheme.titleLarge,
+            buildInfoRow('칵테일 이름', cocktail.name),
+            buildInfoRow('한줄평', cocktail.onelineReview),
+            buildInfoRow('베이스', cocktail.base),
+            buildInfoRow('재료', cocktail.ingredients),
+            buildInfoRow('레시피', cocktail.recipe),
+            buildInfoRow('맛 태그', cocktail.tags?.join(',') ?? ''),
+            Row(
+              children: [
+                const SizedBox(
+                  width: 80,
+                  child: Text(
+                    '평가',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: RatingBar(
+                    rating: cocktail.rating,
+                    size: AppSizes.iconS,
+                    activeColor: category.theme.backgroundColor,
+                    inactiveColor: category.theme.backgroundColor,
+                  ),
+                )
+              ],
             ),
-            const SizedBox(height: AppSizes.size16),
-            _buildInfoRow('베이스', cocktail.base ?? ''),
-            const SizedBox(height: AppSizes.size24),
-            Text(
-              '재료',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(height: AppSizes.size16),
-            Text(
-              '레시피',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(height: AppSizes.size24),
-            Text(
-              '평가',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(height: AppSizes.size16),
-            RatingBar(
-              rating: cocktail.rating,
-              size: AppSizes.size32,
-              onChanged: null,
-            ),
-            const SizedBox(height: AppSizes.size24),
-            if (cocktail.tags != null && cocktail.tags!.isNotEmpty) ...[
-              Text(
-                '태그',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              const SizedBox(height: AppSizes.size16),
-              Wrap(
-                spacing: AppSizes.size8,
-                runSpacing: AppSizes.size8,
-                children: cocktail.tags!
-                    .map(
-                      (tag) => Chip(
-                        label: Text(tag),
-                        backgroundColor:
-                            Theme.of(context).brightness == Brightness.light
-                                ? AppColors.grey100
-                                : AppColors.grey800,
-                      ),
-                    )
-                    .toList(),
-              ),
-              const SizedBox(height: AppSizes.size24),
-            ],
-            if (cocktail.review != null && cocktail.review!.isNotEmpty) ...[
-              Text(
-                '메모',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              const SizedBox(height: AppSizes.size16),
-              Text(cocktail.review!),
-            ],
+            buildInfoRow('기록', cocktail.review),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildInfoRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSizes.size8),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 80,
-            child: Text(
-              label,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Expanded(
-            child: Text(value),
-          ),
-        ],
       ),
     );
   }

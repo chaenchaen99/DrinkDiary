@@ -20,48 +20,48 @@ class WineNotifier extends _$WineNotifier {
       List<Wine> wines = repository.getAllWines();
 
       // 필터 적용
-      if (filter.searchQuery != null) {
-        wines = wines
-            .where((wine) => wine.name
-                .toLowerCase()
-                .contains(filter.searchQuery!.toLowerCase()))
-            .toList();
-      }
+      // if (filter.searchQuery != null) {
+      //   wines = wines
+      //       .where((wine) => wine.name
+      //           .toLowerCase()
+      //           .contains(filter.searchQuery!.toLowerCase()))
+      //       .toList();
+      // }
 
-      if (filter.minRating != null) {
-        wines =
-            wines.where((wine) => wine.rating >= filter.minRating!).toList();
-      }
+      // if (filter.minRating != null) {
+      //   wines =
+      //       wines.where((wine) => wine.rating >= filter.minRating!).toList();
+      // }
 
-      if (filter.selectedTags.isNotEmpty) {
-        wines = wines
-            .where((wine) =>
-                wine.tags?.any((tag) => filter.selectedTags.contains(tag)) ??
-                false)
-            .toList();
-      }
+      // if (filter.selectedTags.isNotEmpty) {
+      //   wines = wines
+      //       .where((wine) =>
+      //           wine.tags?.any((tag) => filter.selectedTags.contains(tag)) ??
+      //           false)
+      //       .toList();
+      // }
 
-      if (filter.selectedYear != null) {
-        wines = wines
-            .where((wine) => wine.productionYear == filter.selectedYear)
-            .toList();
-      }
+      // if (filter.selectedYear != null) {
+      //   wines = wines
+      //       .where((wine) => wine.productionYear == filter.selectedYear)
+      //       .toList();
+      // }
 
-      if (filter.selectedRegion != null) {
-        wines = wines
-            .where((wine) =>
-                wine.region.toLowerCase() ==
-                filter.selectedRegion!.toLowerCase())
-            .toList();
-      }
+      // if (filter.selectedRegion != null) {
+      //   wines = wines
+      //       .where((wine) =>
+      //           wine.region.toLowerCase() ==
+      //           filter.selectedRegion!.toLowerCase())
+      //       .toList();
+      // }
 
-      if (filter.selectedVariety != null) {
-        wines = wines
-            .where((wine) =>
-                wine.variety.toLowerCase() ==
-                filter.selectedVariety!.toLowerCase())
-            .toList();
-      }
+      // if (filter.selectedVariety != null) {
+      //   wines = wines
+      //       .where((wine) =>
+      //           wine.variety.toLowerCase() ==
+      //           filter.selectedVariety!.toLowerCase())
+      //       .toList();
+      // }
 
       // 최신순 정렬
       wines.sort((a, b) => b.createdAt.compareTo(a.createdAt));

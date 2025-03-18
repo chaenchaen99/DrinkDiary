@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:drink_diary/core/constants/app_sizes.dart';
 import 'package:drink_diary/shared/widgets/rating_bar.dart';
 import 'package:flutter/material.dart';
@@ -35,11 +37,18 @@ class DrinkListItem extends StatelessWidget {
             // 배경 이미지 (radius 적용 및 카드 크기 맞춤)
             ClipRRect(
               borderRadius: BorderRadius.circular(12), // 이미지도 카드와 동일한 radius 적용
-              child: Image.asset(
-                imagePath,
+              child: Image.file(
+                File(imagePath),
                 width: double.infinity,
                 height: double.infinity, // 이미지가 카드 크기에 맞게 꽉 차도록 설정
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  print('Error loading image: $error');
+                  return Image.asset(
+                    'assets/images/wine_default.png',
+                    fit: BoxFit.cover,
+                  );
+                },
               ),
             ),
             Positioned.fill(

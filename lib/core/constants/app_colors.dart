@@ -38,7 +38,8 @@ class AppColors {
   static const Color outline = Color(0xFFE6D3D7);
 
   // extended colors
-  static const Color contentPrimary = Color(0xFFFAD0C4);
+  static const Color contentPrimary = Color(0xFFFFFFFF);
+  // static const Color contentPrimary = Color(0xFFFAD0C4);
   static const Color contentSecondary = Color(0xFF6D4C41);
   static const Color contentTertiary = Color(0xFF9E7B73);
   static const Color contentFourth = Color(0xFFBEA8A3);

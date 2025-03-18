@@ -1,10 +1,12 @@
 import 'dart:io';
+import 'package:drink_diary/features/home/providers/category_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:drink_diary/core/constants/app_colors.dart';
 import 'package:drink_diary/core/constants/app_sizes.dart';
 import 'package:drink_diary/data/models/wine.dart';
 import 'package:drink_diary/shared/widgets/rating_bar.dart';
+import '../../../shared/widgets/detail_app_bar.dart';
 import '../providers/wine_provider.dart';
 
 class WineDetailScreen extends ConsumerWidget {
@@ -18,27 +20,17 @@ class WineDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final wineAsync = ref.watch(wineNotifierProvider);
+    final category = ref.watch(categoryNotifierProvider);
 
     return wineAsync.when(
       data: (wines) {
         final wine = wines.firstWhere((w) => w.id == id);
         return Scaffold(
-          appBar: AppBar(
-            title: Text(wine.name),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.edit),
-                onPressed: () {
-                  // TODO: 와인 수정 화면으로 이동
-                },
-              ),
-              IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () {
-                  // TODO: 와인 삭제 기능 구현
-                },
-              ),
-            ],
+          appBar: DetailAppBar(
+            category: category,
+            drink: wine,
+            onEdit: () {},
+            onDelete: () {},
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(AppSizes.size16),
@@ -67,58 +59,43 @@ class WineDetailScreen extends ConsumerWidget {
                       },
                     ),
                   ),
-                const SizedBox(height: AppSizes.size24),
-                Text(
-                  '기본 정보',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
                 const SizedBox(height: AppSizes.size16),
-                _buildInfoRow('품종', wine.variety),
-                _buildInfoRow('생산지', wine.region),
-                _buildInfoRow('가격', '₩${wine.price.toString()}'),
-                const SizedBox(height: AppSizes.size24),
-                Text(
-                  '평가',
-                  style: Theme.of(context).textTheme.titleLarge,
+                buildInfoRow('와인 이름', wine.name),
+                buildInfoRow('한줄평', wine.onelineReview),
+                buildInfoRow('음식 페어링', wine.foodPairing.join(', ')),
+                buildInfoRow(
+                    '알코올 도수', '${wine.alcoholContent.toStringAsFixed(1)}%'),
+                buildInfoRow('생산년도', '${wine.productionYear}년도'),
+                buildInfoRow('생산지', wine.region),
+                buildInfoRow('품종', wine.variety),
+                buildInfoRow('와이너리', wine.winery),
+                buildInfoRow('가격', '₩${wine.price.toString()}'),
+                buildInfoRow('구매처', wine.shop),
+                buildInfoRow('향', wine.aroma.join(',')),
+                Row(
+                  children: [
+                    const SizedBox(
+                      width: 80,
+                      child: Text(
+                        '평가',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: RatingBar(
+                        rating: wine.rating,
+                        size: AppSizes.iconS,
+                        activeColor: category.theme.backgroundColor,
+                        inactiveColor: category.theme.backgroundColor,
+                      ),
+                    )
+                  ],
                 ),
-                const SizedBox(height: AppSizes.size16),
-                RatingBar(
-                  rating: wine.rating,
-                  size: AppSizes.size32,
-                  onChanged: null,
-                ),
-                const SizedBox(height: AppSizes.size24),
-                if (wine.tags?.isNotEmpty ?? false) ...[
-                  Text(
-                    '태그',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: AppSizes.size16),
-                  Wrap(
-                    spacing: AppSizes.size8,
-                    runSpacing: AppSizes.size8,
-                    children: wine.tags!
-                        .map(
-                          (tag) => Chip(
-                            label: Text(tag),
-                            backgroundColor:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? AppColors.grey100
-                                    : AppColors.grey800,
-                          ),
-                        )
-                        .toList(),
-                  ),
-                  const SizedBox(height: AppSizes.size24),
-                ],
-                if (wine.review?.isNotEmpty ?? false) ...[
-                  Text(
-                    '메모',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: AppSizes.size16),
-                  Text(wine.review!),
-                ],
+                const SizedBox(height: AppSizes.size8),
+                buildInfoRow('리뷰', wine.review),
               ],
             ),
           ),
@@ -128,26 +105,29 @@ class WineDetailScreen extends ConsumerWidget {
       error: (error, stack) => Center(child: Text('Error: $error')),
     );
   }
+}
 
-  Widget _buildInfoRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSizes.size8),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 80,
-            child: Text(
-              label,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
+Widget buildInfoRow(String label, String? value) {
+  return value != null && value != ''
+      ? Padding(
+          padding: const EdgeInsets.only(bottom: AppSizes.size12),
+          child: Row(
+            children: [
+              SizedBox(
+                width: 100,
+                child: Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-            ),
+              Expanded(
+                child: Text(value),
+              ),
+            ],
           ),
-          Expanded(
-            child: Text(value),
-          ),
-        ],
-      ),
-    );
-  }
+        )
+      : const SizedBox.shrink();
 }
