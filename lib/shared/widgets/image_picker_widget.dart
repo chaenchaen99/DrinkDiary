@@ -75,6 +75,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
     }
 
     for (var pickedFile in pickedFiles) {
+      debugPrint('디렉토리만: $directory');
       final String newPath =
           '${directory.path}/${DateTime.now().millisecondsSinceEpoch}_${pickedFile.name}';
 

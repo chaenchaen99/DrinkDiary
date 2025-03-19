@@ -37,19 +37,7 @@ class DrinkListItem extends StatelessWidget {
             // 배경 이미지 (radius 적용 및 카드 크기 맞춤)
             ClipRRect(
               borderRadius: BorderRadius.circular(12), // 이미지도 카드와 동일한 radius 적용
-              child: Image.file(
-                File(imagePath),
-                width: double.infinity,
-                height: double.infinity, // 이미지가 카드 크기에 맞게 꽉 차도록 설정
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  print('Error loading image: $error');
-                  return Image.asset(
-                    'assets/images/wine_default.png',
-                    fit: BoxFit.cover,
-                  );
-                },
-              ),
+              child: _getImageWidget(imagePath),
             ),
             Positioned.fill(
               child: Container(
@@ -119,5 +107,36 @@ class DrinkListItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  /// 파일 경로에 따른 이미지 위젯 반환
+  Widget _getImageWidget(String imagePath) {
+    // 파일 경로가 존재하는지 확인
+    final file = File(imagePath);
+    debugPrint("이미지 로드 경로$imagePath");
+    if (file.existsSync()) {
+      // 파일이 존재하면 해당 이미지를 반환
+      return Image.file(
+        file,
+        width: double.infinity,
+        height: double.infinity, // 이미지가 카드 크기에 맞게 꽉 차도록 설정
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          debugPrint('Error loading image: $error');
+          return Image.asset(
+            'assets/images/wine_default.png',
+            fit: BoxFit.cover,
+          );
+        },
+      );
+    } else {
+      // 파일이 존재하지 않으면 기본 이미지 반환
+      return Image.asset(
+        'assets/images/wine_default.png',
+        width: double.infinity,
+        height: double.infinity,
+        fit: BoxFit.cover,
+      );
+    }
   }
 }
