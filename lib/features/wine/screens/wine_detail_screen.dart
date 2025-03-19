@@ -6,6 +6,7 @@ import 'package:drink_diary/core/constants/app_colors.dart';
 import 'package:drink_diary/core/constants/app_sizes.dart';
 import 'package:drink_diary/data/models/wine.dart';
 import 'package:drink_diary/shared/widgets/rating_bar.dart';
+import 'package:go_router/go_router.dart';
 import '../../../shared/widgets/detail_app_bar.dart';
 import '../providers/wine_provider.dart';
 
@@ -30,7 +31,10 @@ class WineDetailScreen extends ConsumerWidget {
             category: category,
             drink: wine,
             onEdit: () {},
-            onDelete: () {},
+            onDelete: () {
+              ref.read(wineNotifierProvider.notifier).deleteWine(wine.id);
+              context.pop();
+            },
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(AppSizes.size16),

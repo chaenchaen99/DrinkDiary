@@ -1,8 +1,10 @@
 import 'dart:io';
+import 'package:drink_diary/features/cocktail/providers/cocktail_provider.dart';
 import 'package:drink_diary/features/home/providers/category_provider.dart';
 import 'package:drink_diary/shared/widgets/detail_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/constants/app_sizes.dart';
 import '../../../data/models/cocktail.dart';
@@ -23,7 +25,16 @@ class CocktailDetailScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: DetailAppBar(
-          category: category, drink: cocktail, onEdit: () {}, onDelete: () {}),
+        category: category,
+        drink: cocktail,
+        onEdit: () {},
+        onDelete: () {
+          ref
+              .read(cocktailNotifierProvider.notifier)
+              .deleteCocktail(cocktail.id);
+          context.pop();
+        },
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppSizes.size16),
         child: Column(

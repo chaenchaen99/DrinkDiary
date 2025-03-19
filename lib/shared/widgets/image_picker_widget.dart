@@ -46,7 +46,9 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
       if (images.isNotEmpty) {
         // 여러 이미지가 선택되었을 경우, 기존 이미지 리스트에 추가
         final savedPaths = await saveImagesToLocal(images);
-        widget.onImagesChanged(savedPaths);
+        final updatedImages = List<String>.from(widget.images)
+          ..addAll(savedPaths);
+        widget.onImagesChanged(updatedImages);
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
