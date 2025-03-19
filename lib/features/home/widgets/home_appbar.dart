@@ -1,5 +1,7 @@
 import 'package:drink_diary/features/home/providers/category_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/constants/app_sizes.dart';
 
@@ -13,9 +15,17 @@ class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
       return AnimatedContainer(
         duration: const Duration(milliseconds: 400),
         color: state.theme.backgroundColor,
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6.0),
         child: AppBar(
           backgroundColor: Colors.transparent,
+          leading: SizedBox(
+            width: 32, // 원하는 너비 설정
+            height: 32, // 원하는 높이 설정
+            child: Image.asset(
+              'assets/images/logo_2.png',
+              fit: BoxFit.contain, // 이미지 비율을 유지하며 크기 조정
+            ),
+          ),
           title: AnimatedContainer(
             duration: const Duration(milliseconds: 400),
             decoration: BoxDecoration(
@@ -61,6 +71,17 @@ class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
           ),
+          actions: [
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                margin: const EdgeInsets.only(right: 16),
+                width: 32,
+                height: 32,
+                child: const Icon(Icons.search),
+              ),
+            )
+          ],
         ),
       );
     });
