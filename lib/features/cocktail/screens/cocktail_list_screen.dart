@@ -33,6 +33,7 @@ class CocktailListScreen extends ConsumerWidget {
                   const Text(
                     '기록된 칵테일이 없습니다.',
                     style: TextStyle(
+                      fontWeight: FontWeight.w100,
                       color: AppColors.grey500,
                       fontSize: 16,
                     ),

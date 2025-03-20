@@ -111,9 +111,15 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          AppStrings.photo,
-          style: Theme.of(context).textTheme.titleMedium,
+        Row(
+          children: [
+            Image.asset('assets/icons/check.png', width: 16, height: 16),
+            const SizedBox(width: AppSizes.paddingXS),
+            Text(
+              AppStrings.photo,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ],
         ),
         const SizedBox(height: AppSizes.paddingXS),
         SizedBox(

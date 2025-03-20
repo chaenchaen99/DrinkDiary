@@ -84,7 +84,15 @@ class CustomTextField extends StatelessWidget {
           validator: validator,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: const TextStyle(color: Colors.grey),
+            labelStyle: const TextStyle(
+              fontFamily: 'Pretendard',
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+            hintStyle: const TextStyle(
+              color: Colors.grey,
+              fontFamily: 'Pretendard',
+            ),
             errorText: errorText,
             suffixIcon: suffix,
             prefixIcon: prefix,

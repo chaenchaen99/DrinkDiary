@@ -3,11 +3,13 @@ import '../constants/app_colors.dart';
 
 class AppTheme {
   static final ThemeData lightTheme = ThemeData(
+    fontFamily: 'Pretendard',
     useMaterial3: true,
     brightness: Brightness.light,
     scaffoldBackgroundColor: const Color(0xFFFFF7F3),
     textTheme: const TextTheme(
       titleMedium: TextStyle(
+        fontFamily: 'Pretendard',
         fontSize: 16,
         fontWeight: FontWeight.w500,
         color: AppColors.grey800,
@@ -24,6 +26,11 @@ class AppTheme {
       onError: AppColors.onError,
     ),
     appBarTheme: const AppBarTheme(
+      titleTextStyle: TextStyle(
+        fontFamily: 'Pretendard',
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+      ),
       backgroundColor: AppColors.wineBackground,
       foregroundColor: AppColors.contentPrimary,
       elevation: 0,
