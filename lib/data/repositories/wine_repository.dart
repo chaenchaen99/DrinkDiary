@@ -45,12 +45,12 @@ class WineRepository {
   // }
 
   // ID로 와인 조회
-  Future<Wine?> getWine(String id) async {
+  Wine? getWine(String id) {
     return _box.get(id);
   }
 
   // 모든 와인 조회
-  Future<List<Wine>?> getAllWines() async {
+  List<Wine>? getAllWines() {
     return _box.values.toList();
   }
 
@@ -64,13 +64,6 @@ class WineRepository {
   List<Wine> getWinesByPriceRange(double min, double max) {
     return _box.values
         .where((wine) => wine.price >= min && wine.price <= max)
-        .toList();
-  }
-
-  // 태그로 와인 검색
-  List<Wine> getWinesByTags(List<String> tags) {
-    return _box.values
-        .where((wine) => wine.tags?.any((tag) => tags.contains(tag)) ?? false)
         .toList();
   }
 

@@ -63,35 +63,53 @@ class CocktailDetailScreen extends ConsumerWidget {
                 ),
               ),
             const SizedBox(height: AppSizes.size24),
-            buildInfoRow('칵테일 이름', cocktail.name),
+            buildInfoRow('칵테일 이름', cocktail.name,
+                icon: 'assets/icons/cocktail.png'),
             buildInfoRow('한줄평', cocktail.onelineReview),
-            buildInfoRow('베이스', cocktail.base),
-            buildInfoRow('재료', cocktail.ingredients),
-            buildInfoRow('레시피', cocktail.recipe),
-            buildInfoRow('맛 태그', cocktail.tags?.join(',') ?? ''),
+            buildInfoRow('베이스', cocktail.base, icon: 'assets/icons/whisky.png'),
+            buildInfoRow('재료', cocktail.ingredients,
+                icon: 'assets/icons/ingredient.png'),
+            buildInfoRow('레시피', cocktail.recipe,
+                icon: 'assets/icons/recipe.png'),
+            buildInfoRow('맛 태그', cocktail.tags?.join(',') ?? '',
+                icon: 'assets/icons/tag.png'),
+            buildInfoRow('기록', cocktail.review,
+                isReview: true, icon: 'assets/icons/memo.png'),
             Row(
               children: [
-                const SizedBox(
+                SizedBox(
                   width: 80,
-                  child: Text(
-                    '평가',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/icons/star.png',
+                        width: 16,
+                        height: 16,
+                      ),
+                      const SizedBox(width: AppSizes.size4),
+                      const Text(
+                        '평가',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(
-                  child: RatingBar(
-                    rating: cocktail.rating,
-                    size: AppSizes.iconS,
-                    activeColor: category.theme.backgroundColor,
-                    inactiveColor: category.theme.backgroundColor,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: RatingBar(
+                      rating: cocktail.rating,
+                      size: AppSizes.iconS,
+                      activeColor: category.theme.backgroundColor,
+                      inactiveColor: category.theme.backgroundColor,
+                    ),
                   ),
                 )
               ],
             ),
-            buildInfoRow('기록', cocktail.review),
           ],
         ),
       ),

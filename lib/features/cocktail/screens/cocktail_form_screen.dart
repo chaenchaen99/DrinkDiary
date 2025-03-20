@@ -121,13 +121,13 @@ class _CocktailFormScreenState extends ConsumerState<CocktailFormScreen> {
               ),
               const SizedBox(height: AppSizes.size8),
               CustomTextField(
-                controller: _baseController,
+                controller: _ingredientControllers,
                 label: '재료',
                 hint: '재료를 입력해주세요',
               ),
               const SizedBox(height: AppSizes.size8),
               CustomTextField(
-                controller: _baseController,
+                controller: _recipeControllers,
                 label: '레시피',
                 hint: '레시피를 입력해주세요',
               ),

@@ -15,49 +15,7 @@ class CocktailNotifier extends _$CocktailNotifier {
   Future<List<Cocktail>> _loadCocktails() async {
     try {
       final repository = ref.read(cocktailRepositoryProvider);
-      final filter = ref.read(cocktailFilterProvider);
       List<Cocktail> cocktails = repository.getAllCocktails();
-
-      // 필터 적용
-      if (filter.searchQuery != null) {
-        cocktails = cocktails
-            .where((cocktail) => cocktail.name
-                .toLowerCase()
-                .contains(filter.searchQuery!.toLowerCase()))
-            .toList();
-      }
-
-      if (filter.selectedBaseSpirit != null) {
-        cocktails = cocktails
-            .where((cocktail) =>
-                cocktail.base?.toLowerCase() ==
-                filter.selectedBaseSpirit!.toLowerCase())
-            .toList();
-      }
-
-      if (filter.minRating != null) {
-        cocktails = cocktails
-            .where((cocktail) => cocktail.rating >= filter.minRating!)
-            .toList();
-      }
-
-      if (filter.selectedTags.isNotEmpty) {
-        cocktails = cocktails
-            .where((cocktail) =>
-                cocktail.tags
-                    ?.any((tag) => filter.selectedTags.contains(tag)) ??
-                false)
-            .toList();
-      }
-
-      // if (filter.selectedIngredients.isNotEmpty) {
-      //   cocktails = cocktails
-      //       .where((cocktail) =>
-      //           cocktail.ingredients?.any((ingredient) =>
-      //               filter.selectedIngredients.contains(ingredient)) ??
-      //           false)
-      //       .toList();
-      // }
 
       // 최신순 정렬
       cocktails.sort((a, b) => b.createdAt.compareTo(a.createdAt));
@@ -103,6 +61,27 @@ class CocktailNotifier extends _$CocktailNotifier {
       state = AsyncValue.error(e, StackTrace.current);
     }
   }
+
+  //검색 필터링
+  Future<void> setSearchQuery(String query) async {
+    state = const AsyncValue.loading();
+    try {
+      final repository = ref.read(cocktailRepositoryProvider);
+      List<Cocktail>? cocktails = repository.getAllCocktails();
+
+      cocktails = cocktails.where((cocktail) {
+        return cocktail.name.contains(query) ||
+            cocktail.base.contains(query) ||
+            cocktail.ingredients.contains(query) ||
+            cocktail.recipe.contains(query) ||
+            cocktail.tags.contains(query);
+      }).toList();
+
+      state = AsyncValue.data(cocktails ?? []);
+    } catch (e) {
+      state = AsyncValue.error(e, StackTrace.current);
+    }
+  }
 }
 
 @riverpod
@@ -110,18 +89,6 @@ class CocktailFilter extends AutoDisposeNotifier<CocktailState> {
   @override
   CocktailState build() {
     return const CocktailState();
-  }
-
-  void setSearchQuery(String? query) {
-    state = CocktailState(
-      searchQuery: query,
-      selectedBaseSpirit: state.selectedBaseSpirit,
-      selectedDifficulty: state.selectedDifficulty,
-      minRating: state.minRating,
-      selectedTags: state.selectedTags,
-      selectedIngredients: state.selectedIngredients,
-    );
-    ref.invalidate(cocktailNotifierProvider);
   }
 
   void setSelectedBaseSpirit(String? baseSpirit) {

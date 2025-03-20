@@ -38,6 +38,8 @@ class HomeScreen extends ConsumerWidget {
           context.push(
               category == DrinkCategory.wine ? '/wines/add' : '/cocktails/add');
         },
+        elevation: 2.0,
+        shape: const CircleBorder(),
         backgroundColor: category.theme.backgroundColor,
         child: const Icon(Icons.add),
       ),

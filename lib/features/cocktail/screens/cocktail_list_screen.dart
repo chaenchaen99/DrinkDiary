@@ -64,8 +64,8 @@ class CocktailListScreen extends ConsumerWidget {
             },
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, // 한 줄에 2개 항목
-              crossAxisSpacing: AppSizes.size4, // 열 간격
-              mainAxisSpacing: AppSizes.size4, // 행 간격
+              crossAxisSpacing: AppSizes.size2, // 열 간격
+              mainAxisSpacing: AppSizes.size2, // 행 간격
               childAspectRatio: 0.7, // 각 항목의 비율 (가로/세로)
             ),
           );

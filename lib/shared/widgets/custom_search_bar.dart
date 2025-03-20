@@ -1,4 +1,3 @@
-import 'package:drink_diary/features/wine/providers/wine_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,9 +6,11 @@ import '../../core/constants/app_colors.dart';
 class SearchInputTextfield extends ConsumerStatefulWidget {
   final TextEditingController controller;
   final VoidCallback onClose;
+  final Function(String) onSubmit;
 
   const SearchInputTextfield({
     super.key,
+    required this.onSubmit,
     required this.controller,
     required this.onClose,
   });
@@ -34,11 +35,7 @@ class _SearchInputTextfieldState extends ConsumerState<SearchInputTextfield> {
             child: TextField(
               textInputAction: TextInputAction.search,
               controller: widget.controller,
-              onSubmitted: (value) {
-                if (value.isNotEmpty && value != '') {
-                  ref.read(wineNotifierProvider.notifier).setSearchQuery(value);
-                }
-              },
+              onSubmitted: widget.onSubmit,
               style: const TextStyle(
                 fontFamily: 'Pretendard',
                 color: AppColors.grey500,
@@ -46,25 +43,20 @@ class _SearchInputTextfieldState extends ConsumerState<SearchInputTextfield> {
                 fontWeight: FontWeight.w400,
               ),
               decoration: InputDecoration(
-                focusedBorder: OutlineInputBorder(
+                focusedBorder: const OutlineInputBorder(
                   // 포커스 상태에서의 border 색상
-                  borderRadius: const BorderRadius.all(Radius.circular(28)),
-                  borderSide: BorderSide(
-                    color: Colors.grey.shade400, // 포커스 상태에서의 border 색상
-                    width: 1.0, // 포커스 시 border 두께
-                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(28)),
+                  borderSide: BorderSide.none,
                 ),
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(Radius.circular(28)),
-                    borderSide: BorderSide(
-                      color: Colors.grey.shade400,
-                      width: 1.0,
-                    )),
+                enabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(28)),
+                    borderSide: BorderSide.none),
                 prefixIcon: const Padding(
                   padding: EdgeInsets.only(left: 8),
                   child: Icon(
                     Icons.search_rounded,
                     color: AppColors.grey500,
+                    size: 18,
                   ),
                 ),
                 prefixIconConstraints: const BoxConstraints(

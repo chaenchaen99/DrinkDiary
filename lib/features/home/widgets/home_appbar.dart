@@ -1,3 +1,4 @@
+import 'package:drink_diary/features/cocktail/providers/cocktail_provider.dart';
 import 'package:drink_diary/features/home/providers/category_provider.dart';
 import 'package:drink_diary/features/wine/providers/wine_provider.dart';
 import 'package:flutter/material.dart';
@@ -52,10 +53,10 @@ class _HomeAppbarState extends ConsumerState<HomeAppbar> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
-      final state = ref.watch(categoryNotifierProvider);
+      final category = ref.watch(categoryNotifierProvider);
       return AnimatedContainer(
         duration: const Duration(milliseconds: 400),
-        color: state.theme.backgroundColor,
+        color: category.theme.backgroundColor,
         padding: const EdgeInsets.symmetric(vertical: 6.0),
         child: AppBar(
           backgroundColor: Colors.transparent,
@@ -70,6 +71,19 @@ class _HomeAppbarState extends ConsumerState<HomeAppbar> {
           title: _isSearch
               ? SearchInputTextfield(
                   controller: _searchController,
+                  onSubmit: (value) {
+                    if (value.isNotEmpty && value != '') {
+                      if (category.isWine) {
+                        ref
+                            .read(wineNotifierProvider.notifier)
+                            .setSearchQuery(value);
+                      } else {
+                        ref
+                            .read(cocktailNotifierProvider.notifier)
+                            .setSearchQuery(value);
+                      }
+                    }
+                  },
                   onClose: () => _hideSearchAppBar(context),
                 )
               : AnimatedContainer(
@@ -78,13 +92,13 @@ class _HomeAppbarState extends ConsumerState<HomeAppbar> {
                     borderRadius: const BorderRadius.all(
                       Radius.circular(AppSizes.radius16),
                     ),
-                    color: state.theme.containerColor,
+                    color: category.theme.containerColor,
                   ),
                   child: SizedBox(
                     height: 32,
                     width: 144,
                     child: DefaultTabController(
-                      initialIndex: state.index,
+                      initialIndex: category.index,
                       length: DrinkCategory.values.length,
                       child: TabBar(
                         onTap: (index) => ref
@@ -95,10 +109,11 @@ class _HomeAppbarState extends ConsumerState<HomeAppbar> {
                         dividerHeight: 0,
                         labelPadding:
                             const EdgeInsets.only(left: 12, right: 12),
-                        labelColor: state.theme.labelColor,
+                        labelColor: category.theme.labelColor,
                         dividerColor: Colors.transparent,
                         labelStyle: Theme.of(context).textTheme.titleMedium,
-                        unselectedLabelColor: state.theme.unselectedLabelColor,
+                        unselectedLabelColor:
+                            category.theme.unselectedLabelColor,
                         unselectedLabelStyle:
                             Theme.of(context).textTheme.titleMedium,
                         overlayColor:
@@ -107,7 +122,7 @@ class _HomeAppbarState extends ConsumerState<HomeAppbar> {
                           borderRadius: const BorderRadius.all(
                             Radius.circular(AppSizes.radius16),
                           ),
-                          color: state.theme.indicatorColor,
+                          color: category.theme.indicatorColor,
                         ),
                         tabs: List.generate(
                           DrinkCategory.values.length,

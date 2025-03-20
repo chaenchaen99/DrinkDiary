@@ -34,8 +34,7 @@ class Wine with _$Wine implements Drink, TimestampMixin {
     @HiveField(17) required int acidity,
     @HiveField(18) required List<String> foodPairing,
     @HiveField(19) String? review, // 상세 리뷰
-    @HiveField(20) List<String>? tags,
-    @HiveField(21) required List<String> aroma,
+    @HiveField(20) required List<String> aroma,
   }) = _Wine;
 
   factory Wine.create({
@@ -80,7 +79,6 @@ class Wine with _$Wine implements Drink, TimestampMixin {
       foodPairing: foodPairing,
       aroma: aroma,
       review: review,
-      tags: [],
     );
   }
 
