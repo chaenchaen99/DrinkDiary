@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_sizes.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTagField extends StatelessWidget {
   final String label;
   final String? hint;
   final String? errorText;
@@ -21,9 +21,8 @@ class CustomTextField extends StatelessWidget {
   final Widget? prefix;
   final String? Function(String?)? validator;
   final String? suffixText;
-  final String icon;
 
-  const CustomTextField({
+  const CustomTagField({
     super.key,
     required this.label,
     this.hint,
@@ -42,7 +41,6 @@ class CustomTextField extends StatelessWidget {
     this.prefix,
     this.validator,
     this.suffixText,
-    this.icon = 'assets/icons/check.png',
   });
 
   @override
@@ -57,7 +55,7 @@ class CustomTextField extends StatelessWidget {
         ),
         Row(
           children: [
-            Image.asset(icon, width: 16, height: 16),
+            Image.asset('assets/icons/tag.png', width: 14, height: 14),
             const SizedBox(width: AppSizes.paddingXS),
             Text(
               label,

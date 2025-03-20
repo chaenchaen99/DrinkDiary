@@ -1,5 +1,6 @@
 import 'package:drink_diary/features/home/providers/category_provider.dart';
 import 'package:drink_diary/features/wine/providers/wine_provider.dart';
+import 'package:drink_diary/shared/widgets/custom_tag_field.dart';
 import 'package:drink_diary/shared/widgets/rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -154,12 +155,12 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
                     });
                   },
                 ),
-                CustomTextField(
+                CustomTagField(
                   controller: _foodPairingController,
                   label: '음식 페어링',
-                  hint: '#스테이크',
-                  onSubmitted: (value) {
-                    if (value.startsWith('#')) {
+                  hint: '#스테이크, #파스타',
+                  onChanged: (value) {
+                    if (value.endsWith(',')) {
                       _addFoodPairing();
                     }
                   },
@@ -213,20 +214,19 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
                   keyboardType: TextInputType.number,
                   suffixText: '%',
                 ),
-                CustomTextField(
-                  controller: _foodPairingController,
-                  label: '향',
-                  hint: '#딸기',
-                  onSubmitted: (value) {
-                    if (value.startsWith('#')) {
-                      _addAroma();
-                    }
-                  },
-                ),
+                CustomTagField(
+                    controller: _aromaController,
+                    label: '향',
+                    hint: '#딸기, #바닐라',
+                    onChanged: (value) {
+                      if (value.endsWith(',')) {
+                        _addAroma();
+                      }
+                    }),
                 Wrap(
                   spacing: AppSizes.size8,
                   runSpacing: AppSizes.size8,
-                  children: _foodPairings.asMap().entries.map((entry) {
+                  children: _aroma.asMap().entries.map((entry) {
                     return Chip(
                       label: Text(entry.value),
                       onDeleted: () => _removeAroma(entry.key),
@@ -266,6 +266,7 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
                 CustomTextField(
                   controller: _reviewController,
                   label: '기록',
+                  icon: 'assets/icons/memo.png',
                   hint: '칵테일과 함께했던 몽글몽글한 시간을 나눠주세요',
                   maxLines: 5,
                 ),
@@ -325,7 +326,7 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
     final text = _foodPairingController.text.trim();
     if (text.isNotEmpty) {
       setState(() {
-        _foodPairings.add(text);
+        _foodPairings.add(text.replaceAll('#', '').replaceAll(',', ''));
         _foodPairingController.clear();
       });
     }
@@ -341,7 +342,7 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
     final text = _aromaController.text.trim();
     if (text.isNotEmpty) {
       setState(() {
-        _aroma.add(text);
+        _aroma.add(text.replaceAll('#', '').replaceAll(',', ''));
         _aromaController.clear();
       });
     }

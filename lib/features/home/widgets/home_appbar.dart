@@ -1,7 +1,5 @@
 import 'package:drink_diary/features/home/providers/category_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/constants/app_sizes.dart';
 
@@ -22,7 +20,7 @@ class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
             width: 32, // 원하는 너비 설정
             height: 32, // 원하는 높이 설정
             child: Image.asset(
-              'assets/images/logo_2.png',
+              'assets/images/logo_4.png',
               fit: BoxFit.contain, // 이미지 비율을 유지하며 크기 조정
             ),
           ),

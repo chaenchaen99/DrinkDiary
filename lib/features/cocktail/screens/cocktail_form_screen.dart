@@ -136,8 +136,8 @@ class _CocktailFormScreenState extends ConsumerState<CocktailFormScreen> {
                 controller: _tasteTagController,
                 label: '맛 태그',
                 hint: '#달콤, #과일향, #신맛',
-                onSubmitted: (value) {
-                  if (value.startsWith('#')) {
+                onChanged: (value) {
+                  if (value.endsWith(',')) {
                     _addTasteTag();
                   }
                 },
@@ -158,7 +158,6 @@ class _CocktailFormScreenState extends ConsumerState<CocktailFormScreen> {
                 label: '추천도',
                 activeColor: category.theme.backgroundColor,
                 inactiveColor: category.theme.backgroundColor,
-                size: AppSizes.size32,
                 onChanged: (rating) {
                   setState(() {
                     _rating = rating;
@@ -169,6 +168,7 @@ class _CocktailFormScreenState extends ConsumerState<CocktailFormScreen> {
               CustomTextField(
                 controller: _reviewController,
                 label: '기록',
+                icon: 'assets/icons/memo.png',
                 hint: '칵테일과 함께했던 몽글몽글한 시간을 나눠주세요',
                 maxLines: 5,
               ),
@@ -211,7 +211,7 @@ class _CocktailFormScreenState extends ConsumerState<CocktailFormScreen> {
     final text = _tasteTagController.text.trim();
     if (text.isNotEmpty) {
       setState(() {
-        _tasteTags.add(text);
+        _tasteTags.add(text.replaceAll('#', '').replaceAll(',', ''));
         _tasteTagController.clear();
       });
     }

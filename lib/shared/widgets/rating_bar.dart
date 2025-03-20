@@ -56,7 +56,7 @@ class _RatingBarState extends State<RatingBar> {
         if (widget.showLabel && widget.label != null) ...[
           Row(
             children: [
-              Image.asset('assets/icons/check.png', width: 16, height: 16),
+              Image.asset('assets/icons/star.png', width: 18, height: 18),
               const SizedBox(width: AppSizes.paddingXS),
               Text(
                 widget.label!,
