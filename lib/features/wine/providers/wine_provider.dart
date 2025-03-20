@@ -14,60 +14,17 @@ class WineNotifier extends _$WineNotifier {
   }
 
   Future<List<Wine>> _loadWines() async {
+    state = const AsyncValue.loading();
     try {
       final repository = ref.read(wineRepositoryProvider);
-      final filter = ref.read(wineFilterProvider);
-      List<Wine> wines = repository.getAllWines();
-
-      // 필터 적용
-      // if (filter.searchQuery != null) {
-      //   wines = wines
-      //       .where((wine) => wine.name
-      //           .toLowerCase()
-      //           .contains(filter.searchQuery!.toLowerCase()))
-      //       .toList();
-      // }
-
-      // if (filter.minRating != null) {
-      //   wines =
-      //       wines.where((wine) => wine.rating >= filter.minRating!).toList();
-      // }
-
-      // if (filter.selectedTags.isNotEmpty) {
-      //   wines = wines
-      //       .where((wine) =>
-      //           wine.tags?.any((tag) => filter.selectedTags.contains(tag)) ??
-      //           false)
-      //       .toList();
-      // }
-
-      // if (filter.selectedYear != null) {
-      //   wines = wines
-      //       .where((wine) => wine.productionYear == filter.selectedYear)
-      //       .toList();
-      // }
-
-      // if (filter.selectedRegion != null) {
-      //   wines = wines
-      //       .where((wine) =>
-      //           wine.region.toLowerCase() ==
-      //           filter.selectedRegion!.toLowerCase())
-      //       .toList();
-      // }
-
-      // if (filter.selectedVariety != null) {
-      //   wines = wines
-      //       .where((wine) =>
-      //           wine.variety.toLowerCase() ==
-      //           filter.selectedVariety!.toLowerCase())
-      //       .toList();
-      // }
+      List<Wine>? wines = await repository.getAllWines();
 
       // 최신순 정렬
-      wines.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-
-      return wines;
+      wines?.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      state = AsyncValue.data(wines ?? []);
+      return wines ?? [];
     } catch (e) {
+      state = AsyncValue.error(e, StackTrace.current);
       throw Exception('와인을 불러오는데 실패했습니다: $e');
     }
   }
@@ -119,6 +76,28 @@ class WineNotifier extends _$WineNotifier {
       state = AsyncValue.error(e, StackTrace.current);
     }
   }
+
+  //검색 필터링
+  Future<void> setSearchQuery(String query) async {
+    state = const AsyncValue.loading();
+    try {
+      final repository = ref.read(wineRepositoryProvider);
+      List<Wine>? wines = await repository.getAllWines();
+
+      wines = wines?.where((wine) {
+        return wine.name.contains(query) || // 와인 이름 검색
+            wine.aroma.contains(query) || // 향 검색
+            wine.shop.contains(query) || // 매장 검색
+            wine.productionYear.contains(query) || // 생산년도 검색
+            wine.region.contains(query) || // 생산 지역 검색
+            wine.variety.contains(query); // 와인 종류 검색
+      }).toList();
+
+      state = AsyncValue.data(wines ?? []);
+    } catch (e) {
+      state = AsyncValue.error(e, StackTrace.current);
+    }
+  }
 }
 
 @riverpod
@@ -128,103 +107,89 @@ class WineFilter extends AutoDisposeNotifier<WineState> {
     return const WineState();
   }
 
-  void setSearchQuery(String? query) {
-    state = WineState(
-      searchQuery: query,
-      minPrice: state.minPrice,
-      maxPrice: state.maxPrice,
-      minRating: state.minRating,
-      selectedTags: state.selectedTags,
-      selectedYear: state.selectedYear,
-      selectedRegion: state.selectedRegion,
-      selectedVariety: state.selectedVariety,
-    );
-    ref.invalidate(wineNotifierProvider);
-  }
+  // void setPriceRange(double? min, double? max) {
+  //   state = WineState(
+  //     searchQuery: state.searchQuery,
+  //     minPrice: min,
+  //     maxPrice: max,
+  //     minRating: state.minRating,
+  //     selectedTags: state.selectedTags,
+  //     selectedYear: state.selectedYear,
+  //     selectedRegion: state.selectedRegion,
+  //     selectedVariety: state.selectedVariety,
+  //   );
+  //   ref.invalidate(wineNotifierProvider);
+  // }
 
-  void setPriceRange(double? min, double? max) {
-    state = WineState(
-      searchQuery: state.searchQuery,
-      minPrice: min,
-      maxPrice: max,
-      minRating: state.minRating,
-      selectedTags: state.selectedTags,
-      selectedYear: state.selectedYear,
-      selectedRegion: state.selectedRegion,
-      selectedVariety: state.selectedVariety,
-    );
-    ref.invalidate(wineNotifierProvider);
-  }
+  // void setMinRating(double? rating) {
+  //   state = WineState(
+  //     searchQuery: state.searchQuery,
+  //     minPrice: state.minPrice,
+  //     maxPrice: state.maxPrice,
+  //     minRating: rating,
+  //     selectedTags: state.selectedTags,
+  //     selectedYear: state.selectedYear,
+  //     selectedRegion: state.selectedRegion,
+  //     selectedVariety: state.selectedVariety,
+  //   );
+  //   ref.invalidate(wineNotifierProvider);
+  // }
 
-  void setMinRating(double? rating) {
-    state = WineState(
-      searchQuery: state.searchQuery,
-      minPrice: state.minPrice,
-      maxPrice: state.maxPrice,
-      minRating: rating,
-      selectedTags: state.selectedTags,
-      selectedYear: state.selectedYear,
-      selectedRegion: state.selectedRegion,
-      selectedVariety: state.selectedVariety,
-    );
-    ref.invalidate(wineNotifierProvider);
-  }
+  // void setSelectedTags(List<String> tags) {
+  //   state = WineState(
+  //     searchQuery: state.searchQuery,
+  //     minPrice: state.minPrice,
+  //     maxPrice: state.maxPrice,
+  //     minRating: state.minRating,
+  //     selectedTags: tags,
+  //     selectedYear: state.selectedYear,
+  //     selectedRegion: state.selectedRegion,
+  //     selectedVariety: state.selectedVariety,
+  //   );
+  //   ref.invalidate(wineNotifierProvider);
+  // }
 
-  void setSelectedTags(List<String> tags) {
-    state = WineState(
-      searchQuery: state.searchQuery,
-      minPrice: state.minPrice,
-      maxPrice: state.maxPrice,
-      minRating: state.minRating,
-      selectedTags: tags,
-      selectedYear: state.selectedYear,
-      selectedRegion: state.selectedRegion,
-      selectedVariety: state.selectedVariety,
-    );
-    ref.invalidate(wineNotifierProvider);
-  }
+  // void setSelectedYear(int? year) {
+  //   state = WineState(
+  //     searchQuery: state.searchQuery,
+  //     minPrice: state.minPrice,
+  //     maxPrice: state.maxPrice,
+  //     minRating: state.minRating,
+  //     selectedTags: state.selectedTags,
+  //     selectedYear: year,
+  //     selectedRegion: state.selectedRegion,
+  //     selectedVariety: state.selectedVariety,
+  //   );
+  //   ref.invalidate(wineNotifierProvider);
+  // }
 
-  void setSelectedYear(int? year) {
-    state = WineState(
-      searchQuery: state.searchQuery,
-      minPrice: state.minPrice,
-      maxPrice: state.maxPrice,
-      minRating: state.minRating,
-      selectedTags: state.selectedTags,
-      selectedYear: year,
-      selectedRegion: state.selectedRegion,
-      selectedVariety: state.selectedVariety,
-    );
-    ref.invalidate(wineNotifierProvider);
-  }
+  // void setSelectedRegion(String? region) {
+  //   state = WineState(
+  //     searchQuery: state.searchQuery,
+  //     minPrice: state.minPrice,
+  //     maxPrice: state.maxPrice,
+  //     minRating: state.minRating,
+  //     selectedTags: state.selectedTags,
+  //     selectedYear: state.selectedYear,
+  //     selectedRegion: region,
+  //     selectedVariety: state.selectedVariety,
+  //   );
+  //   ref.invalidate(wineNotifierProvider);
+  // }
 
-  void setSelectedRegion(String? region) {
-    state = WineState(
-      searchQuery: state.searchQuery,
-      minPrice: state.minPrice,
-      maxPrice: state.maxPrice,
-      minRating: state.minRating,
-      selectedTags: state.selectedTags,
-      selectedYear: state.selectedYear,
-      selectedRegion: region,
-      selectedVariety: state.selectedVariety,
-    );
-    ref.invalidate(wineNotifierProvider);
-  }
-
-  void setSelectedVariety(String? variety) {
-    state = WineState(
-      searchQuery: state.searchQuery,
-      minPrice: state.minPrice,
-      maxPrice: state.maxPrice,
-      minRating: state.minRating,
-      selectedTags: state.selectedTags,
-      selectedYear: state.selectedYear,
-      selectedRegion: state.selectedRegion,
-      selectedVariety: variety,
-    );
-    ref.invalidate(wineNotifierProvider);
-  }
+  // void setSelectedVariety(String? variety) {
+  //   state = WineState(
+  //     searchQuery: state.searchQuery,
+  //     minPrice: state.minPrice,
+  //     maxPrice: state.maxPrice,
+  //     minRating: state.minRating,
+  //     selectedTags: state.selectedTags,
+  //     selectedYear: state.selectedYear,
+  //     selectedRegion: state.selectedRegion,
+  //     selectedVariety: variety,
+  //   );
+  //   ref.invalidate(wineNotifierProvider);
+  // }
 
   void resetFilters() {
     state = const WineState();

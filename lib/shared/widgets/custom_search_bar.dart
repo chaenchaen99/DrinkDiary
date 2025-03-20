@@ -1,8 +1,10 @@
+import 'package:drink_diary/features/wine/providers/wine_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/constants/app_colors.dart';
 
-class SearchInputTextfield extends StatefulWidget {
+class SearchInputTextfield extends ConsumerStatefulWidget {
   final TextEditingController controller;
   final VoidCallback onClose;
 
@@ -13,10 +15,11 @@ class SearchInputTextfield extends StatefulWidget {
   });
 
   @override
-  State<SearchInputTextfield> createState() => _SearchInputTextfieldState();
+  ConsumerState<SearchInputTextfield> createState() =>
+      _SearchInputTextfieldState();
 }
 
-class _SearchInputTextfieldState extends State<SearchInputTextfield> {
+class _SearchInputTextfieldState extends ConsumerState<SearchInputTextfield> {
   @override
   Widget build(BuildContext context) {
     var searchBarPadding = 40;
@@ -32,7 +35,9 @@ class _SearchInputTextfieldState extends State<SearchInputTextfield> {
               textInputAction: TextInputAction.search,
               controller: widget.controller,
               onSubmitted: (value) {
-                print(value);
+                if (value.isNotEmpty && value != '') {
+                  ref.read(wineNotifierProvider.notifier).setSearchQuery(value);
+                }
               },
               style: const TextStyle(
                 fontFamily: 'Pretendard',

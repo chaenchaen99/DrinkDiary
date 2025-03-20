@@ -1,23 +1,24 @@
 import 'package:drink_diary/features/home/providers/category_provider.dart';
+import 'package:drink_diary/features/wine/providers/wine_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_sizes.dart';
 import '../../../shared/widgets/custom_search_bar.dart';
 
-class HomeAppbar extends StatefulWidget implements PreferredSizeWidget {
+class HomeAppbar extends ConsumerStatefulWidget implements PreferredSizeWidget {
   const HomeAppbar({
     super.key,
   });
 
   @override
-  State<HomeAppbar> createState() => _HomeAppbarState();
+  ConsumerState<HomeAppbar> createState() => _HomeAppbarState();
 
   @override
   Size get preferredSize => const Size.fromHeight(44);
 }
 
-class _HomeAppbarState extends State<HomeAppbar> {
+class _HomeAppbarState extends ConsumerState<HomeAppbar> {
   late bool _isSearch;
   late TextEditingController _searchController;
 
@@ -45,6 +46,7 @@ class _HomeAppbarState extends State<HomeAppbar> {
       _isSearch = false;
       _searchController.clear();
     });
+    ref.read(wineNotifierProvider.notifier).build();
   }
 
   @override

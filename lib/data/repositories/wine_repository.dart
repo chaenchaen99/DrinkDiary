@@ -34,14 +34,23 @@ class WineRepository {
   Future<void> deleteAllWine() async {
     await _box.clear();
   }
+  // //ID로 와인 조회
+  // Wine? getWine(String id)  {
+  //   return _box.get(id);
+  // }
+
+  // // 모든 와인 조회
+  // List<Wine>? getAllWines()  {
+  //   return _box.values.toList();
+  // }
 
   // ID로 와인 조회
-  Wine? getWine(String id) {
+  Future<Wine?> getWine(String id) async {
     return _box.get(id);
   }
 
   // 모든 와인 조회
-  List<Wine> getAllWines() {
+  Future<List<Wine>?> getAllWines() async {
     return _box.values.toList();
   }
 
