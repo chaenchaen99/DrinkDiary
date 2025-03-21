@@ -51,20 +51,20 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
   void initState() {
     super.initState();
     _nameController.text = widget.wine?.name ?? '';
-    _onelineReviewController.text = widget.wine?.review ?? '';
+    _onelineReviewController.text = widget.wine?.onelineReview ?? '';
     _productionYearController.text =
         widget.wine?.productionYear.toString() ?? '';
     _regionController.text = widget.wine?.region ?? '';
     _varietyController.text = widget.wine?.variety ?? '';
     _wineryController.text = widget.wine?.winery ?? '';
     _priceController.text = widget.wine?.price.toString() ?? '0';
-    _foodPairingController.text = widget.wine?.foodPairing.toString() ?? '';
     _shopController.text = widget.wine?.shop ?? '';
     _alcoholContentController.text =
         widget.wine?.alcoholContent.toString() ?? '0';
     _foodPairings =
-        (widget.wine?.foodPairing as List<dynamic>?)?.cast<String>() ?? [];
-    _aroma = (widget.wine?.aroma as List<dynamic>?)?.cast<String>() ?? [];
+        List<String>.from((widget.wine?.foodPairing as List<dynamic>?) ?? []);
+
+    _aroma = List<String>.from((widget.wine?.aroma as List<dynamic>?) ?? []);
     _sweetness = widget.wine?.sweetness.toDouble() ?? 3;
     _body = widget.wine?.body.toDouble() ?? 3;
     _tannin = widget.wine?.tannin.toDouble() ?? 3;

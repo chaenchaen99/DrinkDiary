@@ -40,6 +40,7 @@ GoRouter router(RouterRef ref) {
                   },
                 ),
                 GoRoute(
+                  name: 'wine_edit',
                   path: ':id/edit',
                   builder: (context, state) {
                     final wines = ref.read(wineNotifierProvider).value!;
@@ -69,6 +70,7 @@ GoRouter router(RouterRef ref) {
                   },
                 ),
                 GoRoute(
+                  name: 'cocktail_edit',
                   path: ':id/edit',
                   builder: (context, state) {
                     final cocktails = ref.read(cocktailNotifierProvider).value!;

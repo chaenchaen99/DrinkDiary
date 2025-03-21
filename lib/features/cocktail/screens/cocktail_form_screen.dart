@@ -45,10 +45,10 @@ class _CocktailFormScreenState extends ConsumerState<CocktailFormScreen> {
     _recipeControllers = TextEditingController(text: widget.cocktail?.recipe);
     _onelineReviewControllers =
         TextEditingController(text: widget.cocktail?.onelineReview);
-    _tasteTagController = TextEditingController();
     _rating = widget.cocktail?.rating ?? 3;
+    _tasteTagController = TextEditingController();
     _tasteTags =
-        (widget.cocktail?.tags as List<dynamic>?)?.cast<String>() ?? [];
+        List<String>.from((widget.cocktail?.tags as List<dynamic>?) ?? []);
     _images = widget.cocktail?.images?.cast<String>() ?? [];
   }
 

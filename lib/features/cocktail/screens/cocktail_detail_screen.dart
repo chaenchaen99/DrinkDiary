@@ -27,7 +27,13 @@ class CocktailDetailScreen extends ConsumerWidget {
       appBar: DetailAppBar(
         category: category,
         drink: cocktail,
-        onEdit: () {},
+        onEdit: () {
+          context.push('/cocktails/${cocktail.id}/edit');
+          // context.pushNamed(
+          //   'cocktail_edit',
+          //   pathParameters: {'id': cocktail.id}, // 실제 ID로 교체
+          // );
+        },
         onDelete: () {
           ref
               .read(cocktailNotifierProvider.notifier)
@@ -71,7 +77,7 @@ class CocktailDetailScreen extends ConsumerWidget {
                 icon: 'assets/icons/ingredient.png'),
             buildInfoRow('레시피', cocktail.recipe,
                 icon: 'assets/icons/recipe.png'),
-            buildInfoRow('맛 태그', cocktail.tags?.join(',') ?? '',
+            buildInfoRow('맛 태그', cocktail.tags.join(','),
                 icon: 'assets/icons/tag.png'),
             buildInfoRow('기록', cocktail.review,
                 isReview: true, icon: 'assets/icons/memo.png'),

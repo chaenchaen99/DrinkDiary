@@ -28,7 +28,9 @@ class WineDetailScreen extends ConsumerWidget {
           appBar: DetailAppBar(
             category: category,
             drink: wine,
-            onEdit: () {},
+            onEdit: () {
+              context.push('/wines/${wine.id}/edit');
+            },
             onDelete: () {
               ref.read(wineNotifierProvider.notifier).deleteWine(wine.id);
               context.pop();

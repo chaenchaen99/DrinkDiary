@@ -77,7 +77,7 @@ class CocktailNotifier extends _$CocktailNotifier {
             cocktail.tags.contains(query);
       }).toList();
 
-      state = AsyncValue.data(cocktails ?? []);
+      state = AsyncValue.data(cocktails);
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);
     }

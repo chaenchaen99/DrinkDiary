@@ -57,7 +57,7 @@ class CocktailListScreen extends ConsumerWidget {
                     cocktail.images != null && cocktail.images!.isNotEmpty
                         ? cocktail.images!.first
                         : 'assets/images/wine_default.png',
-                onelineReview: cocktail.onelineReview ?? '',
+                onelineReview: cocktail.onelineReview,
                 rating: cocktail.rating,
                 id: cocktail.id,
               );
