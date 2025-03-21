@@ -10,6 +10,7 @@ import '../../../data/models/wine.dart';
 import '../../../shared/widgets/custom_text_field.dart';
 import '../../../shared/widgets/form_app_bar.dart';
 import '../../../shared/widgets/image_picker_widget.dart';
+import '../providers/wine_validator.dart';
 
 class WineFormScreen extends ConsumerStatefulWidget {
   final Wine? wine;
@@ -380,14 +381,31 @@ class _WineFormScreenState extends ConsumerState<WineFormScreen> {
         review: _reviewController.text,
       );
 
+      String message = '';
+      bool isUpdated = false;
+
       if (widget.wine == null) {
-        ref.read(wineNotifierProvider.notifier).addWine(wine);
+        await ref.read(wineNotifierProvider.notifier).addWine(wine);
+        message = '와인 기록이 생성되었습니다.';
+        isUpdated = true;
       } else {
-        ref.read(wineNotifierProvider.notifier).updateWine(wine);
+        if (WineValidator.isWineChanged(widget.wine!, wine)) {
+          await ref.read(wineNotifierProvider.notifier).updateWine(wine);
+          message = '와인 기록이 수정되었습니다.';
+          isUpdated = true;
+        } else {
+          message = '수정된 내용이 없습니다.';
+          isUpdated = false;
+        }
       }
 
       if (mounted) {
-        Navigator.of(context).pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(message)),
+        );
+        if (isUpdated) {
+          Navigator.of(context).pop();
+        }
       }
     }
   }

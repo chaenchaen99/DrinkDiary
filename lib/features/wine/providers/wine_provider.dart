@@ -17,7 +17,7 @@ class WineNotifier extends _$WineNotifier {
     state = const AsyncValue.loading();
     try {
       final repository = ref.read(wineRepositoryProvider);
-      List<Wine>? wines = await repository.getAllWines();
+      List<Wine>? wines = repository.getAllWines();
 
       // 최신순 정렬
       wines?.sort((a, b) => b.createdAt.compareTo(a.createdAt));
@@ -42,14 +42,25 @@ class WineNotifier extends _$WineNotifier {
   }
 
   // 와인 수정
-  Future<void> updateWine(Wine wine) async {
+  Future<bool> updateWine(Wine wine) async {
     state = const AsyncValue.loading();
     try {
       final repository = ref.read(wineRepositoryProvider);
-      await repository.updateWine(wine);
-      state = AsyncValue.data(await _loadWines());
+      final oldWine = (state.value ?? []).firstWhere((w) => w.id == wine.id);
+
+      print('oldWine: ${oldWine == wine}');
+
+      if (oldWine != wine) {
+        await repository.updateWine(wine);
+        state = AsyncValue.data(await _loadWines());
+        return true; // 수정된 내용이 있음
+      } else {
+        state = AsyncValue.data(state.value ?? []);
+        return false; // 수정된 내용이 없음
+      }
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);
+      return false;
     }
   }
 
@@ -82,7 +93,7 @@ class WineNotifier extends _$WineNotifier {
     state = const AsyncValue.loading();
     try {
       final repository = ref.read(wineRepositoryProvider);
-      List<Wine>? wines = await repository.getAllWines();
+      List<Wine>? wines = repository.getAllWines();
 
       wines = wines?.where((wine) {
         return wine.name.contains(query) || // 와인 이름 검색

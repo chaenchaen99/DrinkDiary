@@ -1,3 +1,4 @@
+import 'package:drink_diary/features/cocktail/cocktail_validator.dart';
 import 'package:drink_diary/shared/widgets/form_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -180,7 +181,7 @@ class _CocktailFormScreenState extends ConsumerState<CocktailFormScreen> {
     );
   }
 
-  void _onSubmit() {
+  void _onSubmit() async {
     if (_formKey.currentState!.validate()) {
       final cocktail = Cocktail(
         id: widget.cocktail?.id ?? DateTime.now().toString(),
@@ -197,13 +198,34 @@ class _CocktailFormScreenState extends ConsumerState<CocktailFormScreen> {
         onelineReview: _onelineReviewControllers.text,
       );
 
+      String message = '';
+      bool isUpdated = false;
+
       if (widget.cocktail == null) {
-        ref.read(cocktailNotifierProvider.notifier).addCocktail(cocktail);
+        await ref.read(cocktailNotifierProvider.notifier).addCocktail(cocktail);
+        message = '칵테일 기록이 생성되었습니다.';
+        isUpdated = true;
       } else {
-        ref.read(cocktailNotifierProvider.notifier).updateCocktail(cocktail);
+        if (CocktailValidator.isCocktailChanged(widget.cocktail!, cocktail)) {
+          await ref
+              .read(cocktailNotifierProvider.notifier)
+              .updateCocktail(cocktail);
+          message = '칵테일 기록이 수정되었습니다.';
+          isUpdated = true;
+        } else {
+          message = '수정된 내용이 없습니다.';
+          isUpdated = false;
+        }
       }
 
-      Navigator.of(context).pop();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(message)),
+        );
+        if (isUpdated) {
+          Navigator.of(context).pop();
+        }
+      }
     }
   }
 

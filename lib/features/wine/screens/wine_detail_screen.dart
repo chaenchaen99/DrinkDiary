@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:drink_diary/core/constants/app_sizes.dart';
 import 'package:drink_diary/shared/widgets/rating_bar.dart';
 import 'package:go_router/go_router.dart';
+import '../../../shared/widgets/custom_dialog.dart';
 import '../../../shared/widgets/detail_app_bar.dart';
 import '../providers/wine_provider.dart';
 
@@ -31,9 +32,25 @@ class WineDetailScreen extends ConsumerWidget {
             onEdit: () {
               context.push('/wines/${wine.id}/edit');
             },
-            onDelete: () {
-              ref.read(wineNotifierProvider.notifier).deleteWine(wine.id);
-              context.pop();
+            onDelete: () async {
+              final result = await showDialog<bool>(
+                context: context,
+                builder: (BuildContext context) {
+                  return CustomDialog(
+                    title: '삭제 확인',
+                    content: '정말로 이 와인기록을 삭제하시겠습니까?',
+                    actions: [
+                      CustomDialogAction(text: '취소', value: false),
+                      CustomDialogAction(text: '삭제', value: true),
+                    ],
+                  );
+                },
+              );
+
+              if (result == true && context.mounted) {
+                ref.read(wineNotifierProvider.notifier).deleteWine(wine.id);
+                context.pop();
+              }
             },
           ),
           body: SingleChildScrollView(

@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/constants/app_sizes.dart';
 import '../../../data/models/cocktail.dart';
+import '../../../shared/widgets/custom_dialog.dart';
 import '../../../shared/widgets/rating_bar.dart';
 import '../../wine/screens/wine_detail_screen.dart';
 
@@ -29,16 +30,28 @@ class CocktailDetailScreen extends ConsumerWidget {
         drink: cocktail,
         onEdit: () {
           context.push('/cocktails/${cocktail.id}/edit');
-          // context.pushNamed(
-          //   'cocktail_edit',
-          //   pathParameters: {'id': cocktail.id}, // 실제 ID로 교체
-          // );
         },
-        onDelete: () {
-          ref
-              .read(cocktailNotifierProvider.notifier)
-              .deleteCocktail(cocktail.id);
-          context.pop();
+        onDelete: () async {
+          final result = await showDialog<bool>(
+            context: context,
+            builder: (BuildContext context) {
+              return CustomDialog(
+                title: '삭제 확인',
+                content: '정말로 이 칵테일을 삭제하시겠습니까?',
+                actions: [
+                  CustomDialogAction(text: '취소', value: false),
+                  CustomDialogAction(text: '삭제', value: true),
+                ],
+              );
+            },
+          );
+
+          if (result == true && context.mounted) {
+            ref
+                .read(cocktailNotifierProvider.notifier)
+                .deleteCocktail(cocktail.id);
+            context.pop();
+          }
         },
       ),
       body: SingleChildScrollView(
