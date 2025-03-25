@@ -124,7 +124,7 @@ class DrinkListItem extends StatelessWidget {
         errorBuilder: (context, error, stackTrace) {
           debugPrint('Error loading image: $error');
           return Image.asset(
-            'assets/images/wine_default.png',
+            'assets/images/no_photo.png',
             fit: BoxFit.cover,
           );
         },
@@ -132,7 +132,7 @@ class DrinkListItem extends StatelessWidget {
     } else {
       // 파일이 존재하지 않으면 기본 이미지 반환
       return Image.asset(
-        'assets/images/wine_default.png',
+        'assets/images/no_photo.png',
         width: double.infinity,
         height: double.infinity,
         fit: BoxFit.cover,

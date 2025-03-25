@@ -10,7 +10,7 @@ import '../../../data/models/wine.dart';
 import '../../../shared/widgets/custom_text_field.dart';
 import '../../../shared/widgets/form_app_bar.dart';
 import '../../../shared/widgets/image_picker_widget.dart';
-import '../providers/wine_validator.dart';
+import '../wine_validator.dart';
 
 class WineFormScreen extends ConsumerStatefulWidget {
   final Wine? wine;

@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_sizes.dart';
 import '../../../data/models/cocktail.dart';
 import '../../../shared/widgets/custom_dialog.dart';
+import '../../../shared/widgets/build_images.dart';
 import '../../../shared/widgets/rating_bar.dart';
 import '../../wine/screens/wine_detail_screen.dart';
 
@@ -70,11 +71,9 @@ class CocktailDetailScreen extends ConsumerWidget {
                       padding: const EdgeInsets.only(right: AppSizes.size8),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(AppSizes.size8),
-                        child: Image.file(
-                          File(cocktail.images![index]),
-                          height: 200,
-                          width: 200,
-                          fit: BoxFit.cover,
+                        child: BuildImages(
+                          images: cocktail.images,
+                          index: index,
                         ),
                       ),
                     );

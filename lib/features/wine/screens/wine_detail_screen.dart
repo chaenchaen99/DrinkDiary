@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:drink_diary/features/home/providers/category_provider.dart';
+import 'package:drink_diary/shared/widgets/build_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:drink_diary/core/constants/app_sizes.dart';
@@ -69,11 +70,9 @@ class WineDetailScreen extends ConsumerWidget {
                           padding: const EdgeInsets.only(right: AppSizes.size8),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(AppSizes.size8),
-                            child: Image.file(
-                              File(wine.images![index]),
-                              height: 200,
-                              width: 200,
-                              fit: BoxFit.cover,
+                            child: BuildImages(
+                              images: wine.images,
+                              index: index,
                             ),
                           ),
                         );

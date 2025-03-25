@@ -54,7 +54,7 @@ class WineListScreen extends ConsumerWidget {
                 },
                 imagePath: wine.images != null && wine.images!.isNotEmpty
                     ? wine.images!.first
-                    : 'assets/images/wine_default.png',
+                    : 'assets/images/no_photo.png',
                 onelineReview: wine.onelineReview ?? '',
                 alcohol: "${wine.alcoholContent}%",
                 rating: wine.rating,
