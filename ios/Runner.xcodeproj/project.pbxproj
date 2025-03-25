@@ -105,7 +105,6 @@
 				F9BECE62B400A2250AF6DB32 /* Pods-RunnerTests.release.xcconfig */,
 				F6C352D2C3B995C8F7930696 /* Pods-RunnerTests.profile.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -679,7 +678,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.drinkDiary;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chaeyeon.drinkDiary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

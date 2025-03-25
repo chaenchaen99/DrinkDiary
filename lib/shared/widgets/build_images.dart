@@ -30,10 +30,10 @@ class BuildImages extends StatelessWidget {
       );
     } else {
       return Image.asset(
-        'assets/images/no_photo.png',
+        'assets/images/no_image.png',
         height: height,
         width: width,
-        fit: BoxFit.cover,
+        fit: BoxFit.fitWidth,
       );
     }
   }

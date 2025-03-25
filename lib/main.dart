@@ -1,15 +1,10 @@
-import 'package:drink_diary/features/wine/screens/wine_form_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
-import 'features/main/screens/main_screen.dart';
 import 'data/models/cocktail.dart';
 import 'data/models/wine.dart';
-import 'features/wine/screens/wine_detail_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
