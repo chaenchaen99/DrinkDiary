@@ -19,13 +19,16 @@ class _MapScreenState extends State<MapScreen> {
   String _selectedBarName = '';
   String _selectedBarAddress = '';
   String _selectedBarLink = '';
+  String _selectedBarPhone = '';
 
-  void _showBottomSheet(String name, String address, String link) {
+  void _showBottomSheet(
+      String name, String address, String link, String phone) {
     setState(() {
       _isBottomSheetVisible = true;
       _selectedBarName = name;
       _selectedBarAddress = address;
       _selectedBarLink = link;
+      _selectedBarPhone = phone;
     });
   }
 
@@ -65,6 +68,7 @@ class _MapScreenState extends State<MapScreen> {
                   '바 이름',
                   '서울시 강남구 테헤란로 38길',
                   'https://naver.com',
+                  '01096451697',
                 );
               },
               child: MarkerLayer(
@@ -115,12 +119,23 @@ class _MapScreenState extends State<MapScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            _selectedBarName,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
+                          Row(
+                            children: [
+                              Text(
+                                _selectedBarName,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const Spacer(),
+                              Image.asset(
+                                'assets/icons/star_blank.png',
+                                width: 16,
+                                height: 16,
+                                color: Colors.black.withAlpha(200),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: AppSizes.paddingXS),
                           Row(
@@ -157,7 +172,36 @@ class _MapScreenState extends State<MapScreen> {
                                 ),
                               ],
                             ),
-                          )
+                          ),
+                          const SizedBox(height: AppSizes.paddingXS),
+                          // GestureDetector(
+                          //   onTap: () async {
+                          //     final Uri phoneUri = Uri(
+                          //       scheme: 'tel',
+                          //       path: _selectedBarPhone,
+                          //     );
+                          //     if (await canLaunchUrl(phoneUri)) {
+                          //       await launchUrl(phoneUri);
+                          //     } else {
+                          //       // 전화를 걸 수 없는 경우 에러 처리
+                          //       print('Could not launch $phoneUri');
+                          //     }
+                          //   },
+                          //   child: Row(
+                          //     children: [
+                          //       const Icon(Icons.phone,
+                          //           size: 14, color: Colors.grey),
+                          //       const SizedBox(width: 4),
+                          //       Text(
+                          //         _selectedBarPhone,
+                          //         style: const TextStyle(
+                          //           fontSize: 14,
+                          //           decoration: TextDecoration.underline,
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
