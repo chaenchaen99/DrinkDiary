@@ -1,8 +1,10 @@
 import 'package:drink_diary/core/constants/app_constants.dart';
+import 'package:drink_diary/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import '../../../data/models/comment.dart';
 import '../../../data/models/drinkbar.dart';
+import '../../../shared/widgets/heart_animation.dart';
 
 // 목업 DrinkBar 데이터
 final List<DrinkBar> barList = [
@@ -12,10 +14,11 @@ final List<DrinkBar> barList = [
     address: '서울시 강남구 역삼동 123-45',
     latitude: 37.123,
     longitude: 127.123,
-    description: '도심 속 야경이 아름다운 루프탑 바입니다.',
+    description: '도심 속 야경이 아름다운 루프탑 바입니다.어찌고저찌고',
+    onelineReview: '도심 속 야경이 아름다운 루프탑 바입니다.',
     images: ['https://picsum.photos/400/300', 'https://picsum.photos/401/300'],
     recommendationCount: 150,
-    rating: 4.5,
+    phone: '01096451697',
     comments: [
       Comment(
           id: '1',
@@ -171,19 +174,51 @@ class _MapScreenState extends State<MapScreen> {
           itemBuilder: (context, index) {
             final bar = barList[index];
             return Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  Row(
+                    children: [
+                      const Spacer(),
+                      Container(
+                        width: 60,
+                        height: 2,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      const Spacer(),
+                    ],
+                  ),
+                  const SizedBox(height: AppSizes.paddingM),
+                  Row(
+                    children: [
+                      Text(
+                        bar.name,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const Spacer(),
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        child: const HeartAnimation(),
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: AppSizes.paddingXS),
                   Text(
-                    bar.name,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                    bar.onelineReview,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.grey[700],
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  // const SizedBox(height: AppSizes.paddingXS),
                   Text(
                     bar.address,
                     style: TextStyle(
@@ -191,7 +226,7 @@ class _MapScreenState extends State<MapScreen> {
                       color: Colors.grey[600],
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSizes.paddingS),
                   SizedBox(
                     height: 100,
                     child: ListView.builder(
@@ -282,7 +317,6 @@ class _MapScreenState extends State<MapScreen> {
                         const SizedBox(width: 16),
                         const Icon(Icons.star, color: Colors.amber),
                         const SizedBox(width: 4),
-                        Text('${bar.rating}'),
                       ],
                     ),
 
