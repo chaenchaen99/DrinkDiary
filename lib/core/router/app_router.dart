@@ -1,6 +1,7 @@
 import 'package:drink_diary/features/main/screens/main_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../../features/map/screens/bar_form_screen.dart';
 import '../../features/wine/screens/wine_list_screen.dart';
 import '../../features/wine/screens/wine_detail_screen.dart';
 import '../../features/wine/screens/wine_form_screen.dart';
@@ -80,6 +81,10 @@ GoRouter router(RouterRef ref) {
                   },
                 ),
               ],
+            ),
+            GoRoute(
+              path: 'bars/add',
+              builder: (context, state) => const BarFormScreen(),
             ),
           ]),
     ],

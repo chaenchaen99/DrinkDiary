@@ -1,6 +1,5 @@
 import 'package:drink_diary/features/map/widgets/bar_collapsed_view.dart';
 import 'package:flutter/material.dart';
-
 import '../screens/map_screen.dart';
 import 'bar_details_view.dart';
 

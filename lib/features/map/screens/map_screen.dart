@@ -5,6 +5,7 @@ import '../../../data/models/comment.dart';
 import '../../../data/models/drinkbar.dart';
 import '../../../features/map/widgets/bar_bottom_sheet.dart';
 import '../widgets/map_view.dart';
+import 'package:go_router/go_router.dart';
 
 // 목업 DrinkBar 데이터
 final List<DrinkBar> barList = [
@@ -82,6 +83,10 @@ class _MapScreenState extends State<MapScreen> {
     });
   }
 
+  void _handleAddBar(BuildContext context) async {
+    await context.push<DrinkBar>('/bars/add');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,10 +97,22 @@ class _MapScreenState extends State<MapScreen> {
           ),
           if (isSheetVisible)
             BarBottomSheet(
-                controller: _controller,
-                isExpanded: isExpanded,
-                onExpand: _handleExpand,
-                onCollapse: _handleCollapse),
+              controller: _controller,
+              isExpanded: isExpanded,
+              onExpand: _handleExpand,
+              onCollapse: _handleCollapse,
+            ),
+          if (!isExpanded)
+            Positioned(
+              right: 16,
+              bottom: isSheetVisible
+                  ? MediaQuery.of(context).size.height * 0.3 + 8
+                  : 16,
+              child: FloatingActionButton(
+                onPressed: () => _handleAddBar(context), // context 전달
+                child: const Icon(Icons.add),
+              ),
+            ),
         ],
       ),
     );

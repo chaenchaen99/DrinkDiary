@@ -52,9 +52,6 @@ class CustomTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(
-          height: AppSizes.size16,
-        ),
         Row(
           children: [
             Image.asset(icon, width: 16, height: 16),
@@ -121,7 +118,7 @@ class CustomTextField extends StatelessWidget {
           ),
         ),
         const SizedBox(
-          height: AppSizes.size8,
+          height: AppSizes.paddingS,
         ),
       ],
     );
