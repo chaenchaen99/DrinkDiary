@@ -5,6 +5,8 @@ import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'data/models/cocktail.dart';
 import 'data/models/wine.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +21,11 @@ void main() async {
   // Hive 박스 열기
   await Hive.openBox<Wine>('wines');
   await Hive.openBox<Cocktail>('cocktails');
+
+  // Firebase 초기화
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(const ProviderScope(child: MyApp()));
 }

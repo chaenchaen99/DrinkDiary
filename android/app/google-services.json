@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "63099873423",
+    "project_id": "drinkdiary-ac138",
+    "storage_bucket": "drinkdiary-ac138.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:63099873423:android:afc634624ee7499e3768fa",
+        "android_client_info": {
+          "package_name": "com.chaeyeon.drink_diary"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMWa1s-MWiJy7roEUWukb2iEpe4l2MrWc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
