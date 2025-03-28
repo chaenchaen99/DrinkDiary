@@ -1,23 +1,23 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:drink_diary/core/constants/app_sizes.dart';
 import 'package:drink_diary/data/models/drinkbar.dart';
 import 'package:drink_diary/shared/widgets/form_section.dart';
 import 'package:drink_diary/shared/widgets/image_picker_widget.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../shared/widgets/custom_text_field.dart';
+import '../providers/drink_bar_provider.dart';
 
-class BarFormScreen extends StatefulWidget {
+class BarFormScreen extends ConsumerStatefulWidget {
   final DrinkBar? bar; // 수정 시 사용
 
   const BarFormScreen({super.key, this.bar});
 
   @override
-  State<BarFormScreen> createState() => _BarFormScreenState();
+  ConsumerState<BarFormScreen> createState() => _BarFormScreenState();
 }
 
-class _BarFormScreenState extends State<BarFormScreen> {
+class _BarFormScreenState extends ConsumerState<BarFormScreen> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _nameController;
   late final TextEditingController _addressController;
@@ -138,24 +138,35 @@ class _BarFormScreenState extends State<BarFormScreen> {
     );
   }
 
-  void _handleSubmit() {
+  Future<void> _handleSubmit() async {
     if (_formKey.currentState!.validate()) {
       final bar = DrinkBar(
-        id: widget.bar?.id ?? DateTime.now().toString(),
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
         name: _nameController.text,
         address: _addressController.text,
-        latitude: widget.bar?.latitude ?? 0,
-        longitude: widget.bar?.longitude ?? 0,
+        latitude: 0, // TODO: 지도에서 위치 선택
+        longitude: 0,
         description: _descriptionController.text,
         onelineReview: _onelineReviewController.text,
-        images: _images,
+        images: _images, // 이미지 경로 그대로 저장
         phone: _phoneController.text,
         link: _linkController.text,
-        createdAt: widget.bar?.createdAt ?? DateTime.now(),
-        createdBy: widget.bar?.createdBy ?? 'user',
+        createdAt: DateTime.now(),
+        createdBy: 'user', // TODO: 현재 사용자 ID
       );
 
-      Navigator.pop(context, bar);
+      try {
+        await ref.read(drinkBarNotifierProvider.notifier).addDrinkBar(bar);
+        if (mounted) {
+          context.pop(bar);
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('바 추가 실패: $e')),
+          );
+        }
+      }
     }
   }
 }
